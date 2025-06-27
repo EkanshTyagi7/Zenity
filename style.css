@@ -155,7 +155,7 @@ body {
 /* Hero Section */
 .hero {
   background: linear-gradient(
-      135deg,
+      90deg,
       rgba(255, 154, 139, 0.9),
       rgba(255, 211, 165, 0.9)
     ),
@@ -170,9 +170,28 @@ body {
   padding: 8rem 2rem 4rem;
 }
 
-.hero-content {
+.hero-content{
+  display: flex;
+  /* border: 1px solid blue; */
+  max-width: 1200px;
+  padding-block: 1rem;
+}
+
+.hero-content-details {
+  /* border: 1px solid red; */
   max-width: 800px;
   animation: fadeInUp 1s ease-out;
+}
+
+.hero-content-img{
+  /* border: 1px solid black; */
+  max-width: 400px;
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero-content-img img{
+  width: 100%;
+  height: 100%;
 }
 
 @keyframes fadeInUp {
@@ -207,12 +226,14 @@ body {
 
 .hero .btn {
   font-size: 1.1rem;
+  font-weight: 700;
   padding: 1rem 2rem;
   background: var(--accent-gold);
   color: var(--text-dark);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  box-shadow: 0px 4px 4px #cbad36;
 }
 
 /* Why Section */
