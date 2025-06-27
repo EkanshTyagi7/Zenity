@@ -63,6 +63,7 @@ body {
   align-items: center;
   justify-content: center;
   animation: bounce 2s infinite;
+  overflow: hidden;
 }
 
 .logoImg{
