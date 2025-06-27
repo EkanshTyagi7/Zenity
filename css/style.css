@@ -15,7 +15,8 @@ body {
 :root {
   --primary-coral: #ff9a8b;
   --primary-peach: #ffd3a5;
-  --secondary-lavender: #c8a8e9;
+  --secondary-lavender: #c9a8e9d5;
+  --secondary-lavender-light: #e9d8f9;
   --secondary-mint: #a8e6cf;
   --accent-gold: #ffd93d;
   --text-dark: #4a5568;
@@ -313,8 +314,8 @@ body {
 .features-section {
   padding: 6rem 2rem;
   background: linear-gradient(
-    135deg,
-    var(--secondary-mint),
+    0deg,
+    var(--secondary-lavender-light),
     var(--secondary-lavender)
   );
 }
