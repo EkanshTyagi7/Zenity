@@ -284,6 +284,7 @@ body {
 
 .why-card:hover {
   transform: translateY(-10px);
+  background:var(--primary-peach) ;
 }
 
 .why-icon {
@@ -323,7 +324,11 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
 }
-
+.community-card {
+  grid-column: 1 / -1;  
+  max-width: 400px;      
+  margin: 0 auto;     
+}
 .feature-card {
   background: var(--white);
   padding: 2rem;
@@ -346,7 +351,8 @@ body {
 
 .feature-card:hover {
   transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background:var(--primary-peach) ;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .feature-icon {
@@ -559,4 +565,4 @@ body {
     transform: translateY(-100vh) rotate(360deg);
     opacity: 0;
   }
-}
+}   
