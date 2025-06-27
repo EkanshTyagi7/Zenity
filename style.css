@@ -53,19 +53,22 @@ body {
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
-  background: var(--accent-gold);
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
   animation: bounce 2s infinite;
+  overflow: hidden;
+}
+
+.logoImg{
+    width: 100%;
+    height: 100%;
 }
 
 @keyframes bounce {
@@ -84,11 +87,12 @@ body {
   }
 }
 
-.brand-name {
-  font-size: 1.5rem;
-  font-weight: bold;
+.brand-name a {
+  font-size: 1.75rem;
+  font-weight: 700;
   color: var(--white);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
 }
 
 .nav-links {
@@ -100,7 +104,7 @@ body {
 .nav-links a {
   color: var(--white);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 550;
   transition: all 0.3s ease;
   padding: 0.5rem 1rem;
   border-radius: 25px;
@@ -109,6 +113,7 @@ body {
 .nav-links a:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
+  color: black;
 }
 
 .cta-buttons {
@@ -151,7 +156,7 @@ body {
 /* Hero Section */
 .hero {
   background: linear-gradient(
-      135deg,
+      90deg,
       rgba(255, 154, 139, 0.9),
       rgba(255, 211, 165, 0.9)
     ),
@@ -166,9 +171,28 @@ body {
   padding: 8rem 2rem 4rem;
 }
 
-.hero-content {
+.hero-content{
+  display: flex;
+  /* border: 1px solid blue; */
+  max-width: 1200px;
+  padding-block: 1rem;
+}
+
+.hero-content-details {
+  /* border: 1px solid red; */
   max-width: 800px;
   animation: fadeInUp 1s ease-out;
+}
+
+.hero-content-img{
+  /* border: 1px solid black; */
+  max-width: 400px;
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero-content-img img{
+  width: 100%;
+  height: 100%;
 }
 
 @keyframes fadeInUp {
@@ -203,12 +227,14 @@ body {
 
 .hero .btn {
   font-size: 1.1rem;
+  font-weight: 700;
   padding: 1rem 2rem;
   background: var(--accent-gold);
   color: var(--text-dark);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  box-shadow: 0px 4px 4px #cbad36;
 }
 
 /* Why Section */
