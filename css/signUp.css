@@ -20,7 +20,18 @@ body {
   position: relative;
   overflow-x: hidden;
 }
-
+/* Logo + title */
+.logo{
+  margin-right: 30.1px;
+}
+.logo-title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logoImg{
+  padding-bottom: 10px;
+}
 /* Floating shapes animation */
 .floating-shapes {
   position: absolute;
@@ -93,7 +104,7 @@ body {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 32px;
-  padding: 48px 40px;
+  padding: 10px 20px;
   width: 100%;
   max-width: 420px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
@@ -124,13 +135,6 @@ body {
   font-weight: 400;
   margin-bottom: 8px;
 }
-
-.welcome-icon {
-  font-size: 3rem;
-  margin-bottom: 16px;
-  animation: bounce 2s infinite;
-}
-
 @keyframes bounce {
   0%,
   20%,
@@ -254,7 +258,8 @@ body {
 /* Links */
 .signin-link {
   text-align: center;
-  margin-top: 32px;
+  margin-top: 20px;
+  margin-bottom: 12px;
   color: #6b7280;
   font-size: 0.95rem;
 }
@@ -312,15 +317,6 @@ body {
   padding: 0 16px;
   position: relative;
 }
-
-/* Progress indicator */
-.progress-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
 .dot {
   width: 8px;
   height: 8px;
