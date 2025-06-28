@@ -46,3 +46,53 @@ document.querySelectorAll(".feature-card, .why-card").forEach((card) => {
   card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
   observer.observe(card);
 });
+
+// Animate Join Us section elements on scroll
+const joinImage = document.querySelector(".join-image img");
+const joinText = document.querySelector(".join-text");
+
+if (joinImage && joinText) {
+  // Start hidden
+  joinImage.style.opacity = "0";
+  joinImage.style.transform = "translateY(30px)";
+  joinImage.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+
+  joinText.style.opacity = "0";
+  joinText.style.transform = "translateY(30px)";
+  joinText.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+
+  const joinObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          joinImage.style.opacity = "1";
+          joinImage.style.transform = "translateY(0)";
+          joinText.style.opacity = "1";
+          joinText.style.transform = "translateY(0)";
+        }
+      });
+    },
+    { threshold: 0.4 }
+  );
+
+  joinObserver.observe(joinImage);
+}
+// Fade in/out for Join Us section
+const fadeSection = document.querySelector('.fade-toggle');
+
+const joinobserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        fadeSection.classList.add('visible');
+      } else {
+        fadeSection.classList.remove('visible');
+      }
+    });
+  },
+  { threshold: 0.3 }
+);
+
+if (fadeSection) {
+  joinobserver.observe(fadeSection);
+}
