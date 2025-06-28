@@ -127,7 +127,6 @@ body {
 }
 
 .section {
-    border: 1px solid red;
   padding: 5rem 0;
   position: relative;
 }
@@ -151,7 +150,6 @@ body {
 }
 
 .content-grid {
-    border: 1px solid red;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
