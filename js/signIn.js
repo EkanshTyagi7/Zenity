@@ -70,3 +70,33 @@ inputs.forEach((input) => {
     }
   });
 });
+// Add to your existing JS
+// Particle generation
+function createParticles() {
+  const container = document.querySelector('.particle-container');
+  const particleCount = 30;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    
+    // Random properties
+    const size = Math.random() * 10 + 5;
+    const posX = Math.random() * 100;
+    const posY = Math.random() * 100;
+    const delay = Math.random() * 10;
+    const duration = Math.random() * 15 + 10;
+    
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${posX}vw`;
+    particle.style.top = `${posY}vh`;
+    particle.style.opacity = Math.random() * 0.5 + 0.1;
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.animationDuration = `${duration}s`;
+    
+    container.appendChild(particle);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', createParticles);
