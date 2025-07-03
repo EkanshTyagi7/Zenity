@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zenity - Sign In</title>
     <link rel="stylesheet" href="css/signIn.css" />
     <script src="js/signIn.js" defer></script>
-    
-</head>
-<body>
+  </head>
+  <body>
     <!-- Floating background elements -->
-<!--<div class="floating-element cloud"></div>
+    <!--<div class="floating-element cloud"></div>
 <div class="floating-element cloud"></div>
 <div class="floating-element star"></div>
 <div class="floating-element star"></div>
@@ -20,56 +19,54 @@
 <div class="floating-element wave"></div> 
 <div class="particle-container"></div> -->
     <div class="signin-container">
-        <!-- Logo and branding -->
-        <div class="logo-section">
+      <!-- Logo and branding -->
+      <div class="logo-section">
         <!--    <img src="img/ZenityLogoNoBG.png" alt="Zenity Logo" class="logo-img"> -->
-            <a href="/" class="app-name">Zenity</a>
-            <p class="tagline">Your journey to mindful living</p>
+        <a href="/" class="app-name">Zenity</a>
+        <p class="tagline">Your journey to mindful living</p>
+      </div>
+
+      <!-- Sign-in form -->
+      <form id="signinForm">
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            placeholder="Enter your email"
+            required
+          />
         </div>
 
-        <!-- Sign-in form -->
-        <form id="signinForm">
-            <div class="form-group">
-                <label class="form-label" for="email">Email</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    class="form-input" 
-                    placeholder="Enter your email"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label class="form-label" for="password">Password</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    class="form-input" 
-                    placeholder="Enter your password"
-                    required
-                >
-            </div>
-
-            <button type="submit" class="btn btn-primary">
-                Sign In
-            </button>
-            <div id="signinMessage" style="margin-top:1rem;"></div>
-        </form>
-
-        <!-- Google sign-in -->
-        <button class="btn btn-secondary" id="googleSignin">
-            <img src="img/google.png" alt="Google logo" class="google-img">
-            Continue with Google
-        </button>
-
-        <!-- Create account link -->
-        <div class="create-account">
-            Don't have an account? <a href="signUp.html" id="createAccount">Create an account</a>
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-input"
+            placeholder="Enter your password"
+            required
+          />
         </div>
+
+        <button type="submit" class="btn btn-primary">Sign In</button>
+        <div id="signinMessage" style="margin-top: 1rem"></div>
+      </form>
+
+      <!-- Google sign-in -->
+      <button class="btn btn-secondary" id="googleSignin">
+        <img src="img/google.png" alt="Google logo" class="google-img" />
+        Continue with Google
+      </button>
+
+      <!-- Create account link -->
+      <div class="create-account">
+        Don't have an account?
+        <a href="signUp.html" id="createAccount">Create an account</a>
+      </div>
     </div>
-
-</body>
+  </body>
 </html>
