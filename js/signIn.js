@@ -32,12 +32,12 @@ document.getElementById("googleSignin").addEventListener("click", function () {
   }, 1500);
 });
 
-document
-  .getElementById("createAccount")
-  .addEventListener("click", function (e) {
-    e.preventDefault();
-    alert("Redirecting to account creation... 🌟");
-  });
+// document
+//   .getElementById("createAccount")
+//   .addEventListener("click", function (e) {
+//     e.preventDefault();
+//     alert("Redirecting to account creation... 🌟");
+//   });
 
 // Add subtle parallax effect to floating elements
 document.addEventListener("mousemove", function (e) {
