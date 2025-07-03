@@ -89,7 +89,7 @@ body {
 
 /* Main container */
 .signup-container {
-  height: 630px;
+  /* height: 630px; */
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 32px;
