@@ -1,0 +1,28 @@
+{
+  "name": "zenity",
+  "version": "1.0.0",
+  "description": "gamefied mental health tracker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EkanshTyagi7/Zenity.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EkanshTyagi7/Zenity/issues"
+  },
+  "homepage": "https://github.com/EkanshTyagi7/Zenity#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.1",
+    "nodemon": "^3.1.10",
+    "uuid": "^11.1.0"
+  }
+}
