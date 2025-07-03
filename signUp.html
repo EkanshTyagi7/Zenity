@@ -25,12 +25,14 @@
 
         <p class="subtitle">Begin your wellness journey</p>
       </div>
+
       <form id="signupForm">
         <div class="form-group">
           <div class="input-container">
             <input
               type="text"
               class="form-input"
+              name="name"
               placeholder="Full Name"
               required
             />
@@ -42,6 +44,7 @@
             <input
               type="email"
               class="form-input"
+              name="email"
               placeholder="Email Address"
               required
             />
@@ -53,6 +56,7 @@
             <input
               type="password"
               class="form-input"
+              name="password"
               placeholder="Create Password"
               required
             />
@@ -64,6 +68,7 @@
             <input
               type="password"
               class="form-input"
+              name="confirmPassword"
               placeholder="Confirm Password"
               required
             />
@@ -71,6 +76,7 @@
         </div>
 
         <button type="submit" class="btn-primary">Start Your Journey ✨</button>
+        <div id="signupMessage" style="margin-top:1rem;"></div>
       </form>
 
       <div class="divider">
