@@ -1,20 +1,43 @@
-// Add interactive functionality
-document.getElementById("signinForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const btn = e.target.querySelector(".btn-primary");
-  const originalText = btn.textContent;
+// Add interactive functionality and backend integration for login
+document
+  .getElementById("signinForm")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const btn = this.querySelector(".btn-primary");
+    const messageDiv = document.getElementById("signinMessage");
+    const originalText = btn.textContent;
+    btn.textContent = "Signing in...";
+    btn.style.background = "linear-gradient(135deg, #a8e6cf, #c8a8e9)";
+    messageDiv.textContent = "";
 
-  btn.textContent = "Signing in...";
-  btn.style.background = "linear-gradient(135deg, #a8e6cf, #c8a8e9)";
+    const formData = new FormData(this);
+    const email = formData.get("email");
+    const password = formData.get("password");
 
-  setTimeout(() => {
-    btn.textContent = "Welcome back! 🎉";
-    setTimeout(() => {
+    try {
+      const response = await fetch("http://localhost:8001/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 1000);
+      } else {
+        btn.textContent = originalText;
+        btn.style.background = "linear-gradient(135deg, #ff9a8b, #ffd93d)";
+        messageDiv.style.color = "#ff4d4f";
+        messageDiv.textContent = data.message || "Login failed.";
+      }
+    } catch (err) {
       btn.textContent = originalText;
       btn.style.background = "linear-gradient(135deg, #ff9a8b, #ffd93d)";
-    }, 2000);
-  }, 1500);
-});
+      messageDiv.style.color = "#ff4d4f";
+      messageDiv.textContent = "Network error. Please try again.";
+    }
+  });
 
 document.getElementById("googleSignin").addEventListener("click", function () {
   const btn = this;
@@ -70,23 +93,23 @@ inputs.forEach((input) => {
     }
   });
 });
-// Add to your existing JS
+
 // Particle generation
 function createParticles() {
-  const container = document.querySelector('.particle-container');
+  const container = document.querySelector(".particle-container");
   const particleCount = 30;
-  
+
   for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-    
+    const particle = document.createElement("div");
+    particle.classList.add("particle");
+
     // Random properties
     const size = Math.random() * 10 + 5;
     const posX = Math.random() * 100;
     const posY = Math.random() * 100;
     const delay = Math.random() * 10;
     const duration = Math.random() * 15 + 10;
-    
+
     particle.style.width = `${size}px`;
     particle.style.height = `${size}px`;
     particle.style.left = `${posX}vw`;
@@ -94,9 +117,9 @@ function createParticles() {
     particle.style.opacity = Math.random() * 0.5 + 0.1;
     particle.style.animationDelay = `${delay}s`;
     particle.style.animationDuration = `${duration}s`;
-    
+
     container.appendChild(particle);
   }
 }
 
-document.addEventListener('DOMContentLoaded', createParticles);
+document.addEventListener("DOMContentLoaded", createParticles);
