@@ -28,6 +28,7 @@ document
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
+        credentials: "include",
       });
       const data = await response.json();
       if (response.ok) {

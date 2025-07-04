@@ -1,8 +1,11 @@
+require("dotenv").config(); 
 //require express
 const express = require("express");
 
 //require cors
 const cors = require("cors");
+
+const cookieParser = require("cookie-parser");
 
 //require connect function
 const { connectMongoDB } = require("./connection");
@@ -18,6 +21,8 @@ const PORT = 8001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
+app.use(cookieParser()); 
 
 //mongoDB connection
 connectMongoDB("mongodb://127.0.0.1:27017/Zenity")

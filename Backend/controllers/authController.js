@@ -23,7 +23,8 @@ async function handleUserSignUp(req, res) {
 
     // Create user
     const user = await User.create({ name, email, password: hashedPassword });
-
+    // Takig token
+    sendToken(newUser, 201, res);
     return res.status(201).json({ message: "User registered successfully!" });
   } catch (err) {
     console.error(err);
