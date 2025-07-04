@@ -78,6 +78,6 @@ document.addEventListener("mousemove", (e) => {
     const speed = (index + 1) * 0.5;
     const xPos = (x - 0.5) * speed * 20;
     const yPos = (y - 0.5) * speed * 20;
-    shape.style.transform = translate(`${xPos}px, ${yPos}px`);
+    shape.style.transform = `translate(${xPos}px, ${yPos}px)`;
   });
 });
