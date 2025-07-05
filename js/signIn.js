@@ -24,7 +24,7 @@ document
       const data = await response.json();
       if (response.ok) {
         setTimeout(() => {
-          window.location.href = "dashboard.html";
+          window.location.href = "signIn.html";
         }, 1000);
       } else {
         btn.textContent = originalText;

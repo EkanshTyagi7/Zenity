@@ -99,42 +99,31 @@ if (fadeSection) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const ctaContainer = document.getElementById("nav-cta");
-  if (!ctaContainer) return; // safety
+  const heroBtn = document.getElementById("hero-cta");
+  if (!ctaContainer || !heroBtn) return;
 
   try {
-    // Hit your protected test route; cookie travels with credentials: "include"
     const res = await fetch("http://localhost:8001/api/profile", {
       credentials: "include",
     });
 
     if (res.ok) {
-      const data = await res.json();    // { user: { name, email, ... } }
+      const { user } = await res.json();
 
-      // Create a simple profile icon / dropdown link
-      const profileLink = document.createElement("a");
-      profileLink.href = "#";             // later link to dashboard
-      profileLink.className = "btn btn-outline";
-      profileLink.style.display = "flex";
-      profileLink.style.alignItems = "center";
-      profileLink.style.gap = "0.5rem";
-
-      // emoji avatar; replace with <img> if you store user photos
-      const avatar = document.createElement("span");
-      avatar.textContent = "👤";         
-      const label  = document.createElement("span");
-      label.textContent = data.user.name.split(" ")[0] || "Profile";
-
-      profileLink.appendChild(avatar);
-      profileLink.appendChild(label);
-
-      // Clear Sign In / Sign Up buttons and insert profile link
+      // Replace buttons with profile icon
+      const profileBtn = document.createElement("a");
+      profileBtn.href = "#";
+      profileBtn.className = "btn btn-outline";
+      profileBtn.textContent = `👤 ${user.name?.split(" ")[0] || "Profile"}`;
       ctaContainer.innerHTML = "";
-      ctaContainer.appendChild(profileLink);
+      ctaContainer.appendChild(profileBtn);
+
+      // Change hero button
+      heroBtn.textContent = "➡ Continue to Dashboard";
+      heroBtn.href = "dashboard.html";
     }
-    // if 401, do nothing—buttons stay as Sign In / Sign Up
   } catch (err) {
     console.error("Auth check failed:", err);
-    // network error → keep default buttons
   }
 });
 
