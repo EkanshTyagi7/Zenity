@@ -1,69 +1,63 @@
-//require model
-const User = require("../models/User");
-
-//require bcrypt
+const User   = require("../models/User");
 const bcrypt = require("bcryptjs");
+const jwt    = require("jsonwebtoken");
 
-//Controller function for SignUp
-async function handleUserSignUp(req, res) {
+// helper to create cookie + json response
+function sendToken(user, statusCode, res) {
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN, // "30d"
+  });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    domain: "localhost",
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+  });
+
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    user: { id: user._id, name: user.name, email: user.email },
+  });
+}
+
+// ---------- SIGN‑UP ----------
+exports.handleUserSignUp = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    if (!name || !email || !password) {
+    if (!name || !email || !password)
       return res.status(400).json({ message: "All fields are required." });
-    }
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    if (await User.exists({ email }))
       return res.status(409).json({ message: "Email already registered." });
-    }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create user
     const user = await User.create({ name, email, password: hashedPassword });
-    // Takig token
-    sendToken(newUser, 201, res);
-    return res.status(201).json({ message: "User registered successfully!" });
+
+    sendToken(user, 201, res);            // auto‑login after signup
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "Server error. Please try again." });
+    res.status(500).json({ message: "Server error. Please try again." });
   }
-}
+};
 
-//Controller function for SignIn
-async function handleUserSignIn(req, res) {
+// ---------- SIGN‑IN ----------
+exports.handleUserSignIn = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required." });
-    }
+    if (!email || !password)
+      return res.status(400).json({ message: "Email and password required." });
 
-    // Find user by email
     const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ message: "Invalid email or password." });
-    }
+    if (!user) return res.status(401).json({ message: "Invalid credentials." });
 
-    // Compare password
-    const bcrypt = require("bcryptjs");
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Invalid email or password." });
-    }
+    if (!isMatch) return res.status(401).json({ message: "Invalid credentials." });
 
-    // Success (for now, just return a message)
-    return res.status(200).json({ message: `Welcome back, ${user.name}!` });
+    sendToken(user, 200, res);           // <-- sets the 30‑day cookie
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "Server error. Please try again." });
+    res.status(500).json({ message: "Server error. Please try again." });
   }
-}
-
-module.exports = {
-  handleUserSignUp,
-  handleUserSignIn,
 };
