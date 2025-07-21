@@ -10,6 +10,12 @@ const { connectMongoDB } = require("./connection");
 //require authRoutes
 const authRoutes = require("./routes/authRoutes");
 
+//require habitRoutes
+const habitRoutes = require("./routes/habitRoutes");
+
+//require quotesRoutes
+const quoteRoutes = require("./routes/quoteRoutes");
+
 //app and port creation
 const app = express();
 const PORT = 8001;
@@ -26,7 +32,10 @@ connectMongoDB("mongodb://127.0.0.1:27017/Zenity")
     console.log("Error:", err);
   });
 
+
 app.use("/api/auth", authRoutes);
+app.use("/api/quote", quoteRoutes);
+app.use("/api/habits", habitRoutes);
 
 //app listen
 app.listen(PORT, () => console.log("Server started at port:", PORT));
