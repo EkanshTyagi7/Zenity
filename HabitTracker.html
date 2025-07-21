@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habit Tracker</title>
+    <link rel="stylesheet" href="css/HabitTracker.css" />
+    <script src="js/HabitTracker.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <button class="back-btn">←</button>
+        <div class="header-title">Habit Tracker</div>
+        <div class="current-date" id="currentDate"></div>
+      </div>
+
+      <!-- Main View -->
+      <div class="main-view" id="mainView">
+        <!-- Quote Section -->
+        <div class="quote-section">
+          <div class="quote-text" id="quoteText"></div>
+          <div class="quote-author" id="quoteAuthor"></div>
+        </div>
+
+        <!-- Habits Section -->
+        <div class="habits-section">
+          <button class="add-habit-btn"><span>+</span> Add New Habit</button>
+          <div id="habitsList"></div>
+        </div>
+      </div>
+
+      <!-- Habit Detail View -->
+      <div class="habit-detail" id="habitDetail">
+        <div class="habit-detail-header">
+          <div>
+            <div class="habit-detail-name" id="detailHabitName"></div>
+            <div class="habit-detail-progress" id="detailHabitProgress"></div>
+          </div>
+          <button class="back-to-main">← Back to Habits</button>
+        </div>
+
+        <div class="today-check">
+          <button class="check-btn" id="todayCheckBtn"></button>
+          <span>Mark today's habit as complete</span>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-content">
+        <div class="lightbox-title" id="lightboxTitle">Add New Habit</div>
+        <div class="form-group">
+          <label class="form-label">Habit Name</label>
+          <input
+            type="text"
+            class="form-input"
+            id="habitName"
+            placeholder="Enter habit name"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Days</label>
+          <input
+            type="number"
+            class="form-input"
+            id="habitDays"
+            placeholder="e.g., 30"
+            min="1"
+            max="365"
+          />
+        </div>
+        <div class="form-buttons">
+          <button class="btn-secondary">Cancel</button>
+          <button class="btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
