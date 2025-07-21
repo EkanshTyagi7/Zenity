@@ -1,44 +1,12 @@
 let habits = [];
 let currentEditingIndex = -1;
-
-//quotes
-const quotes = [
-  {
-    text: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
-    author: "Aristotle",
-  },
-  {
-    text: "The secret of getting ahead is getting started.",
-    author: "Mark Twain",
-  },
-  {
-    text: "A habit cannot be tossed out the window; it must be coaxed down the stairs a step at a time.",
-    author: "Mark Twain",
-  },
-  {
-    text: "Success is the sum of small efforts, repeated day in and day out.",
-    author: "Robert Collier",
-  },
-  {
-    text: "Chains of habit are too light to be felt until they are too heavy to be broken.",
-    author: "Warren Buffett",
-  },
-  {
-    text: "The groundwork for all happiness is good health.",
-    author: "Leigh Hunt",
-  },
-  {
-    text: "Your future is created by what you do today, not tomorrow.",
-    author: "Robert Kiyosaki",
-  },
-];
+let currentEditingId = null;
 
 // Initialize app
 document.addEventListener("DOMContentLoaded", function () {
   updateCurrentDate();
   displayDailyQuote();
   loadHabits();
-  renderHabits();
 });
 
 function updateCurrentDate() {
@@ -50,15 +18,25 @@ function updateCurrentDate() {
   );
 }
 
-function displayDailyQuote() {
-  const today = new Date().getDate();
-  const quote = quotes[today % quotes.length];
-  document.getElementById("quoteText").textContent = `"${quote.text}"`;
-  document.getElementById("quoteAuthor").textContent = `- ${quote.author}`;
+async function displayDailyQuote() {
+  try {
+    const res = await fetch("http://localhost:8001/api/quote");
+    if (!res.ok) throw new Error("Failed to fetch quote");
+    const quote = await res.json();
+    document.getElementById("quoteText").textContent = `"${quote.text}"`;
+    document.getElementById("quoteAuthor").textContent = `- ${quote.author}`;
+  } catch (err) {
+    console.error("Error fetching quote:", err);
+    document.getElementById("quoteText").textContent =
+      '"Start your day with a good habit!"';
+    document.getElementById("quoteAuthor").textContent = "- Zenity";
+  }
 }
+
 
 function openAddHabit() {
   currentEditingIndex = -1;
+  currentEditingId = null;
   document.getElementById("lightboxTitle").textContent = "Add New Habit";
   document.getElementById("habitName").value = "";
   document.getElementById("habitDays").value = "";
@@ -68,6 +46,7 @@ function openAddHabit() {
 function editHabit(index) {
   currentEditingIndex = index;
   const habit = habits[index];
+  currentEditingId = habit._id;
   document.getElementById("lightboxTitle").textContent = "Edit Habit";
   document.getElementById("habitName").value = habit.name;
   document.getElementById("habitDays").value = habit.totalDays;
@@ -78,7 +57,7 @@ function closeLightbox() {
   document.getElementById("lightbox").style.display = "none";
 }
 
-function saveHabit() {
+async function saveHabit() {
   const name = document.getElementById("habitName").value.trim();
   const days = parseInt(document.getElementById("habitDays").value);
 
@@ -89,21 +68,37 @@ function saveHabit() {
 
   if (currentEditingIndex === -1) {
     // Add new habit
-    const newHabit = {
-      name: name,
-      totalDays: days,
-      completedDays: [],
-      startDate: new Date().toISOString().split("T")[0],
-    };
-    habits.push(newHabit);
+    try {
+      const res = await fetch("http://localhost:8001/api/habits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          totalDays: days,
+          startDate: new Date().toISOString().split("T")[0],
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to add habit");
+    } catch (err) {
+      alert("Error adding habit");
+    }
   } else {
     // Edit existing habit
-    habits[currentEditingIndex].name = name;
-    habits[currentEditingIndex].totalDays = days;
+    try {
+      const res = await fetch(`http://localhost:8001/api/habits/${currentEditingId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          totalDays: days,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to update habit");
+    } catch (err) {
+      alert("Error updating habit");
+    }
   }
-
-  saveHabits();
-  renderHabits();
+  await loadHabits();
   closeLightbox();
 }
 
@@ -150,21 +145,19 @@ function openHabitDetail(index) {
   document.getElementById("habitDetail").style.display = "block";
 }
 
-function toggleTodayCheck(habitIndex = null) {
+async function toggleTodayCheck(habitIndex = null) {
   if (habitIndex === null) return;
-
   const habit = habits[habitIndex];
-  const today = new Date().toISOString().split("T")[0];
-  const todayIndex = habit.completedDays.indexOf(today);
-
-  if (todayIndex > -1) {
-    habit.completedDays.splice(todayIndex, 1);
-  } else {
-    habit.completedDays.push(today);
+  try {
+    const res = await fetch(`http://localhost:8001/api/habits/${habit._id}/toggle`, {
+      method: "PATCH",
+    });
+    if (!res.ok) throw new Error("Failed to toggle day");
+    await loadHabits();
+    openHabitDetail(habitIndex);
+  } catch (err) {
+    alert("Error toggling day");
   }
-
-  saveHabits();
-  openHabitDetail(habitIndex);
 }
 
 function renderCalendar(habit) {
@@ -226,14 +219,18 @@ document.querySelector(".btn-primary").addEventListener("click", () => {
   saveHabit();
 });
 
-function saveHabits() {
-  // In a real app, this would save to a database
-  // For now, we'll use localStorage simulation
-  console.log("Habits saved:", habits);
-}
+// function saveHabits() {
+//   // In a real app, this would save to a database
+//   // For now, we'll use localStorage simulation
+//   console.log("Habits saved:", habits);
+// }
 
-function loadHabits() {
-  // In a real app, this would load from a database
-  // For demo purposes, we'll start with empty habits
-  habits = [];
+async function loadHabits() {
+  try {
+    const res = await fetch("http://localhost:8001/api/habits");
+    habits = await res.json();
+    renderHabits();
+  } catch (err) {
+    console.error("Failed to load habits", err);
+  }
 }
