@@ -54,7 +54,8 @@ body {
 }
 
 .nav {
-  background: linear-gradient(to right top, var(--purple-600), var(--blue-300));
+  /* background: linear-gradient(to right top, var(--purple-600), var(--blue-300)); */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
@@ -106,7 +107,8 @@ body {
 }
 
 .header {
-  background: linear-gradient(to right, var(--purple-600), var(--blue-300));
+  /* background: linear-gradient(to right, var(--purple-600), var(--blue-300)); */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 1.5rem;
   border-radius: 0.75rem;
@@ -273,9 +275,10 @@ body {
 }
 
 .scale-button.selected {
-  background-color: var(--purple-600);
+  /* background-color: var(--purple-600); */
   color: white;
-  border-color: var(--purple-600);
+  /* border-color: var(--purple-600); */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   transform: scale(1.1);
 }
 
@@ -410,7 +413,8 @@ body {
 }
 
 .submit-button {
-  background: linear-gradient(to right, var(--purple-600), var(--blue-600));
+  /* background: linear-gradient(to right, var(--purple-600), var(--blue-600)); */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 1rem 2rem;
   border-radius: 0.75rem;
