@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zenity Daily Log</title>
+    <link
+      rel="stylesheet"
+      href="css/DailyLog.css
+    "
+    />
+    <script src="https://cdn.jsdelivr.net/npm/recharts@2.11.7/umd/Recharts.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/DailyLog.js" defer></script>
+  </head>
+  <body>
+    <div class="app">
+      <!-- Navigation -->
+      <nav class="nav">
+        <div class="nav-container">
+          <div class="nav-brand">
+            <div class="nav-logo">
+              <img src="img/ZenityLogoNoBG.png" alt="Logo" />
+            </div>
+            <span class="nav-title">Zenity</span>
+          </div>
+        </div>
+      </nav>
+      <!-- Main Content -->
+      <div id="content" class="content">
+        <div class="container">
+          <div class="header">
+            <h1>Daily Mental Health Log</h1>
+            <p>Track your well-being journey, one day at a time</p>
+            <div class="header-info">
+              <i data-lucide="calendar"></i>
+              <span id="log-date"></span>
+            </div>
+          </div>
+
+          <!-- Mood Section -->
+          <div class="card">
+            <div class="mood-selector">
+              <div class="mood-header">
+                <i data-lucide="heart" class="icon-heart"></i>
+                <h3>Overall Mood</h3>
+              </div>
+              <div class="mood-grid" id="mood-options"></div>
+            </div>
+          </div>
+
+          <!-- Mental Health Metrics -->
+          <div class="card">
+            <h2>Mental Health Metrics</h2>
+            <div id="anxiety-scale"></div>
+            <div id="stress-scale"></div>
+            <div id="energy-scale"></div>
+          </div>
+
+          <!-- Sleep Section -->
+          <div class="card">
+            <div class="flex items-center gap-2">
+              <i data-lucide="moon" class="w-5 h-5 text-indigo-600"></i>
+              <h2>Sleep</h2>
+            </div>
+            <div class="grid-2">
+              <div class="input-group">
+                <label>Hours Slept</label>
+                <input
+                  type="number"
+                  step="0.5"
+                  min="0"
+                  max="24"
+                  id="sleep-hours"
+                  class="input-field"
+                />
+              </div>
+              <div class="input-group">
+                <label>Sleep Quality</label>
+                <select id="sleep-quality" class="input-field">
+                  <option value="1">Poor</option>
+                  <option value="2">Fair</option>
+                  <option value="3">Good</option>
+                  <option value="4">Very Good</option>
+                  <option value="5">Excellent</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Metrics -->
+          <div class="card">
+            <h2>Daily Activities & Wellness</h2>
+            <div id="social-scale"></div>
+            <div id="physical-scale"></div>
+            <div id="productivity-scale"></div>
+            <div id="mindfulness-scale"></div>
+          </div>
+
+          <!-- Symptoms -->
+          <div class="card">
+            <h2>Symptoms Experienced</h2>
+            <div class="symptoms-grid" id="symptoms-list"></div>
+          </div>
+
+          <!-- Activities -->
+          <div class="card">
+            <h2>Activities & Coping Strategies</h2>
+            <div class="activities-grid" id="activities-list"></div>
+          </div>
+
+          <!-- Gratitude -->
+          <div class="card">
+            <h2>Three Things I'm Grateful For</h2>
+            <div class="space-y-3" id="gratitude-list"></div>
+          </div>
+
+          <!-- Text Areas -->
+          <div class="card">
+            <div class="input-group">
+              <label>Daily Achievements</label>
+              <textarea
+                id="achievements"
+                class="textarea-field"
+                rows="3"
+                placeholder="What did you accomplish today?"
+              ></textarea>
+            </div>
+            <div class="input-group">
+              <label>Triggers or Challenges</label>
+              <textarea
+                id="triggers"
+                class="textarea-field"
+                rows="3"
+                placeholder="What challenged you today?"
+              ></textarea>
+            </div>
+            <div class="input-group">
+              <label>Additional Notes</label>
+              <textarea
+                id="notes"
+                class="textarea-field"
+                rows="4"
+                placeholder="Any other thoughts or observations?"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button id="save-log" class="submit-button">Save Daily Log ✨</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
