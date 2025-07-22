@@ -22,6 +22,10 @@ document
       });
       const data = await response.json();
       if (response.ok) {
+        // Store JWT in localStorage
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+        }
         setTimeout(() => {
           window.location.href = "dashboard.html";
         }, 1000);

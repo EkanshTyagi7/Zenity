@@ -54,8 +54,14 @@ async function handleUserSignIn(req, res) {
       return res.status(401).json({ message: "Invalid email or password." });
     }
 
-    // Success (for now, just return a message)
-    return res.status(200).json({ message: `Welcome back, ${user.name}!` });
+    // JWT logic
+    const jwt = require('jsonwebtoken');
+    const token = jwt.sign({ userId: user._id, name: user.name, email: user.email }, 'your_jwt_secret', { expiresIn: '7d' });
+    return res.status(200).json({
+      message: `Welcome back, ${user.name}!`,
+      token,
+      userId: user._id
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Server error. Please try again." });
