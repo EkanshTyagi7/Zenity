@@ -6,13 +6,14 @@
 
 body {
   font-family: "Nunito", sans-serif;
-  background: linear-gradient(
+  /* background: linear-gradient(
     135deg,
     #ff9a8b 0%,
     #ffd3a5 25%,
     #c8a8e9 75%,
     #a8e6cf 100%
-  );
+  ); */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -111,7 +112,8 @@ body {
 .logo {
   font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #ff9a8b, #c8a8e9);
+  /* background: linear-gradient(135deg, #ff9a8b, #c8a8e9); */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -191,7 +193,8 @@ body {
   margin-top: 10px;
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg, #ff9a8b, #ffd3a5);
+  /* background: linear-gradient(135deg, #ff9a8b, #ffd3a5); */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   border-radius: 20px;
   color: white;
@@ -256,7 +259,8 @@ body {
 }
 
 .signin-link a {
-  color: #c8a8e9;
+  /* color: #c8a8e9; */
+  color: #7355B0;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
