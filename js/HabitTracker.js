@@ -219,11 +219,6 @@ document.querySelector(".btn-primary").addEventListener("click", () => {
   saveHabit();
 });
 
-// function saveHabits() {
-//   // In a real app, this would save to a database
-//   // For now, we'll use localStorage simulation
-//   console.log("Habits saved:", habits);
-// }
 
 async function loadHabits() {
   try {
