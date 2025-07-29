@@ -31,18 +31,13 @@ body {
 
 /* Header */
 .header {
-  background: linear-gradient(
-    135deg,
-    var(--primary-coral),
-    var(--primary-peach)
-  );
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 1rem 0;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(255, 154, 139, 0.2);
 }
 
 .nav {
@@ -70,9 +65,9 @@ body {
   overflow: hidden;
 }
 
-.logoImg{
-    width: 100%;
-    height: 100%;
+.logoImg {
+  width: 100%;
+  height: 100%;
 }
 
 @keyframes bounce {
@@ -159,12 +154,7 @@ body {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(
-      90deg,
-      rgba(255, 154, 139, 0.9),
-      rgba(255, 211, 165, 0.9)
-    ),
-    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="stars" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="50" cy="25" r="2" fill="%23ffd93d" opacity="0.3"/><circle cx="25" cy="75" r="1.5" fill="%23c8a8e9" opacity="0.4"/><circle cx="75" cy="60" r="1" fill="%23a8e6cf" opacity="0.5"/></pattern></defs><rect width="1200" height="600" fill="url(%23stars)"/></svg>');
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -175,7 +165,7 @@ body {
   padding: 8rem 2rem 4rem;
 }
 
-.hero-content{
+.hero-content {
   display: flex;
   /* border: 1px solid blue; */
   max-width: 1200px;
@@ -185,16 +175,18 @@ body {
 .hero-content-details {
   /* border: 1px solid red; */
   max-width: 800px;
+  z-index: 1;
   animation: fadeInUp 1s ease-out;
 }
 
-.hero-content-img{
+.hero-content-img {
   /* border: 1px solid black; */
   max-width: 400px;
+  width: 100%;
   animation: fadeInUp 1s ease-out;
 }
 
-.hero-content-img img{
+.hero-content-img img {
   width: 100%;
   height: 100%;
 }
@@ -288,7 +280,7 @@ body {
 
 .why-card:hover {
   transform: translateY(-10px);
-  background:var(--primary-peach) ;
+  background: var(--primary-peach);
 }
 
 .why-icon {
@@ -329,9 +321,9 @@ body {
   gap: 2rem;
 }
 .community-card {
-  grid-column: 1 / -1;  
-  max-width: 400px;      
-  margin: 0 auto;     
+  grid-column: 1 / -1;
+  max-width: 400px;
+  margin: 0 auto;
 }
 .feature-card {
   background: var(--white);
@@ -355,7 +347,7 @@ body {
 
 .feature-card:hover {
   transform: translateY(-10px) scale(1.02);
-  background:var(--primary-peach) ;
+  background: var(--primary-peach);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
@@ -392,7 +384,12 @@ body {
 /* Join Us Section: Revamped */
 .join-section {
   padding: 6rem 2rem;
-  background: linear-gradient(-45deg, var(--primary-coral), var(--secondary-mint), var(--primary-peach));
+  background: linear-gradient(
+    -45deg,
+    var(--primary-coral),
+    var(--secondary-mint),
+    var(--primary-peach)
+  );
   background-size: 400% 400%;
   animation: backgroundShift 15s ease infinite;
   color: var(--text-dark);
@@ -400,7 +397,6 @@ body {
   position: relative;
   z-index: 1;
 }
-
 
 .join-content {
   display: grid;
@@ -429,12 +425,11 @@ body {
   filter: drop-shadow(0 8px 30px rgba(0, 0, 0, 0.3));
 }
 
-
 .join-text h2 {
   font-size: 2.5rem;
   font-weight: 700;
   color: #3a3a3a; /* Deep grey, still soft */
-text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* optional subtle glow */
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* optional subtle glow */
   margin-bottom: 1rem;
   animation: slideInRight 1s ease;
 }
@@ -464,11 +459,15 @@ text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* optional subtle glow */
   transform: translateY(-2px);
 }
 
-
 /* Subtle floating animation */
 @keyframes floatY {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 @keyframes backgroundShift {
   0% {
@@ -487,12 +486,16 @@ text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* optional subtle glow */
 }
 
 @keyframes pulseHighlight {
-  0% { box-shadow: 0 0 0px rgba(255, 255, 255, 0); }
-  50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
-  100% { box-shadow: 0 0 0px rgba(255, 255, 255, 0); }
+  0% {
+    box-shadow: 0 0 0px rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(255, 255, 255, 0);
+  }
 }
-
-
 
 /* Footer */
 .footer {
@@ -615,7 +618,7 @@ text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* optional subtle glow */
     transform: translateY(-100vh) rotate(360deg);
     opacity: 0;
   }
-}   
+}
 /* Floating particles just for Join Us section */
 .join-particles {
   position: absolute;
@@ -652,7 +655,11 @@ text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* optional subtle glow */
   }
 }
 .footer {
-  background: linear-gradient(135deg, var(--primary-peach), var(--primary-coral));
+  background: linear-gradient(
+    135deg,
+    var(--primary-peach),
+    var(--primary-coral)
+  );
   padding: 4rem 2rem 2rem;
   color: var(--text-dark);
   text-align: center;
@@ -739,7 +746,7 @@ text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* optional subtle glow */
 
 /* Top-nav layout */
 .footer-top {
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 2rem;
   margin-bottom: 2rem;
 }
@@ -779,7 +786,6 @@ text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3); /* optional subtle glow */
 }
 
 /* Social icons in bottom row */
-
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
