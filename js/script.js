@@ -12,18 +12,6 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-// Add scroll effect to header
-window.addEventListener("scroll", () => {
-  const header = document.querySelector(".header");
-  if (window.scrollY > 100) {
-    header.style.background =
-      "linear-gradient(135deg, rgba(255, 154, 139, 0.95), rgba(255, 211, 165, 0.95))";
-  } else {
-    header.style.background =
-      "linear-gradient(135deg, var(--primary-coral), var(--primary-peach))";
-  }
-});
-
 // Animate feature cards on scroll
 const observerOptions = {
   threshold: 0.1,
@@ -78,15 +66,15 @@ if (joinImage && joinText) {
   joinObserver.observe(joinImage);
 }
 // Fade in/out for Join Us section
-const fadeSection = document.querySelector('.fade-toggle');
+const fadeSection = document.querySelector(".fade-toggle");
 
 const joinobserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        fadeSection.classList.add('visible');
+        fadeSection.classList.add("visible");
       } else {
-        fadeSection.classList.remove('visible');
+        fadeSection.classList.remove("visible");
       }
     });
   },
