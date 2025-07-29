@@ -1,92 +1,96 @@
 <html>
-    <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zenity - Mental Health Tracker</title>
-  <link rel="stylesheet" href="css/dashboard.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div class="app-container">
-    
-    <aside class="sidebar">
-      <!-- Zenity logo + buttons -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="js/dashboard.js" defer></script>
+  </head>
+  <body>
+    <div class="app-container">
+      <aside class="sidebar">
+        <!-- Zenity logo + buttons -->
         <div class="branding">
-        <img src="img/ZenityLogoNoBG.png" alt="Zenity Logo" class="logo-img" />
-  <span class="brand-name">Zenity</span>
+          <img
+            src="img/ZenityLogoNoBG.png"
+            alt="Zenity Logo"
+            class="logo-img"
+          />
+          <span class="brand-name">Zenity</span>
+        </div>
+
+        <nav class="nav-menu">
+          <button>
+            <img src="img/dailylog.png" class="icon-img" /> Daily Log
+          </button>
+          <button>
+            <img src="img/habit.png" class="icon-img" /> Habit Tracker
+          </button>
+          <button>
+            <img src="img/achievement.png" class="icon-img" /> Achievements
+          </button>
+          <button><img src="img/shop.png" class="icon-img" /> Shop</button>
+          <button><img src="img/rooms.png" class="icon-img" /> Rooms</button>
+          <button>
+            <img src="img/community.png" class="icon-img" /> Community
+          </button>
+        </nav>
+      </aside>
+
+      <div class="main-area">
+        <header class="header">
+          <!-- Coins | Stars | Theme -->
+          <div class="greeting">👋 Hello, Aniket</div>
+          <div class="status-icons">
+            <div class="icon-item">
+              <img src="img/star.png" alt="Stars" class="header-icon" />
+              <span>120</span>
+            </div>
+            <div class="icon-item">
+              <img src="img/dollar.png" alt="Coins" class="header-icon" />
+              <span>450</span>
+            </div>
+            <select class="theme-selector">
+              <option value="creamy">Creamy Beige</option>
+              <option value="blue">Ocean Blue</option>
+              <option value="forest">Forest Green</option>
+            </select>
+            <div class="account">
+              <img src="img/profile-user.png" alt="Account">
+            </div>
+          </div>
+        </header>
+
+        <div class="top-strip">
+          <!-- 🔥 Streak Box -->
+          <div class="streak-box">
+            <span class="streak-emoji">🔥</span>
+            <div class="streak-texts">
+              <div class="label">Streaks</div>
+              <div class="values">
+                Current: <strong>3</strong> | Highest: <strong>10</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- 🧪 XP + Level Box -->
+          <div class="xp-box">
+            <div class="xp-label-row">
+              <span class="xp-level-text">Level <strong>5</strong></span>
+              <span class="xp-value">XP: 300/500</span>
+            </div>
+            <div class="xp-bar-container">
+              <div class="xp-bar"></div>
+            </div>
+          </div>
+        <main class="dashboard">
+          <!-- Pet | Streaks | Stress | Read | etc -->
+        </main>
       </div>
-
-     <nav class="nav-menu">
-  <button><img src="img/dailylog.png" class="icon-img" /> Daily Log</button>
-  <button><img src="img/habit.png" class="icon-img" /> Habit Tracker</button>
-  <button><img src="img/achievement.png" class="icon-img" /> Achievements</button>
-  <button><img src="img/shop.png" class="icon-img" /> Shop</button>
-  <button><img src="img/rooms.png" class="icon-img" /> Rooms</button>
-  <button><img src="img/community.png" class="icon-img" /> Community</button>
-</nav>
-    </aside>
-
-    <div class="main-area">
-      
-      <header class="header">
-        <!-- Coins | Stars | Theme -->
-  <div class="greeting">👋 Hello, Aniket</div>
-<div class="status-icons">
-  <div class="icon-item">
-    <img src="img/star.png" alt="Stars" class="header-icon" />
-    <span>120</span>
-  </div>
-  <div class="icon-item">
-    <img src="img/dollar.png" alt="Coins" class="header-icon" />
-    <span>450</span>
-  </div>
-  <select class="theme-selector">
-    <option value="creamy">Creamy Beige</option>
-    <option value="blue">Ocean Blue</option>
-    <option value="forest">Forest Green</option>
-  </select>
-</div>
-      </header>
-
-     <div class="top-strip">
-  <!-- 🔥 Streak Box -->
-  <div class="streak-box">
-    <span class="streak-emoji">🔥</span>
-    <div class="streak-texts">
-      <div class="label">Streaks</div>
-      <div class="values">Current: <strong>3</strong> | Highest: <strong>10</strong></div>
     </div>
-  </div>
-
-  <!-- 🧪 XP + Level Box -->
-  <div class="xp-box">
-  <div class="xp-label-row">
-    <span class="xp-level-text">Level <strong>5</strong></span>
-    <span class="xp-value">XP: 300/500</span>
-  </div>
-  <div class="xp-bar-container">
-    <div class="xp-bar" style="width: 60%;"></div>
-  </div>
-</div>
-
-<!-- 🐾 Pet Box -->
-  <div class="pet-box">
-    🐶 <span class="pet-name">Zen Pup</span>
-  </div>
-
-  <!-- 😊 Mood Box -->
-  <div class="mood-box">
-    😊 <span class="mood-label">Mood: Calm</span>
-  </div>
-</div>
-
-
-      <main class="dashboard">
-        <!-- Pet | Streaks | Stress | Read | etc -->
-      </main>
-
-    </div>
-    
-  </div>
-</body>
+  </body>
 </html>
