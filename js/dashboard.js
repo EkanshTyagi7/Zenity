@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "Achievements.html",
     "shop.html",
     "Rooms.html",
-    "Community.html",
+    "community.html",
   ];
   navButtons.forEach((btn, i) => {
     btn.addEventListener("click", () => {
