@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenity Community</title>
+    <link rel="stylesheet" href="css/community.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="community-container">
+        <!-- Sidebar with channels -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-leaf"></i> Zenity Community</h2>
+            </div>
+            
+            <div class="channels-container">
+                <!-- Channels will be populated here -->
+            </div>
+        </div>
+
+        <!-- Main chat area -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="channel-info">
+                    <h3 id="current-channel-name">Select a channel</h3>
+                    <span id="channel-description">Choose a channel to start chatting</span>
+                </div>
+                <div class="user-info">
+                    <span id="current-user-name">Welcome!</span>
+                    <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messages-container">
+                <div class="welcome-message">
+                    <i class="fas fa-comments"></i>
+                    <h3>Welcome to Zenity Community!</h3>
+                    <p>Select a channel from the sidebar to start connecting with others on your mental health journey.</p>
+                </div>
+            </div>
+
+            <div class="message-input-container">
+                <div class="input-wrapper">
+                    <input type="text" id="message-input" placeholder="Type your message..." disabled>
+                    <button id="send-button" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/community.js"></script>
+</body>
+</html> 
