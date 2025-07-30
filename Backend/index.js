@@ -22,6 +22,9 @@ const logRoutes=require("./routes/logRoutes");
 //require communityRoutes
 const communityRoutes = require("./routes/communityRoutes");
 
+//require shopRoutes
+const shopRoutes = require("./routes/shopRoutes");
+
 //require community controller for initialization
 const { initializeChannels } = require("./controllers/communityController");
 
@@ -90,6 +93,7 @@ app.use("/api/quote", quoteRoutes);
 app.use("/api/habits", habitRoutes);
 app.use("/api/log", logRoutes);
 app.use("/api/community", communityRoutes);
+app.use("/api/shop", shopRoutes);
 
 //app listen
 server.listen(PORT, () => console.log("Server started at port:", PORT));
