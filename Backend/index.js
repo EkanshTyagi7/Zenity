@@ -19,6 +19,9 @@ const quoteRoutes = require("./routes/quoteRoutes");
 //require logRoutes
 const logRoutes=require("./routes/logRoutes");
 
+// require shopRoutes
+const shopRoutes = require("./routes/shopRoutes");
+
 //app and port creation
 const app = express();
 const PORT = 8001;
@@ -40,6 +43,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/quote", quoteRoutes);
 app.use("/api/habits", habitRoutes);
 app.use("/api/log", logRoutes);
+app.use("/api/shop", shopRoutes);
 
 //app listen
 app.listen(PORT, () => console.log("Server started at port:", PORT));

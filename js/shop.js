@@ -156,16 +156,62 @@ let currentSection = "pets";
 let currentIndex = 0;
 let userCoins = 1250;
 let userStars = 1250;
+ 
+// Add these right after your gameData constant
+let authToken = localStorage.getItem('token');
 
-// Initialize
-function init() {
-  createBackgroundParticles();
-  // Set initial UI values for coins and stars
+// Add this new function (keep all your existing variables)
+async function loadUserData() {
+  if (!authToken) return;
+  
+  try {
+    const response = await fetch('http://localhost:8001/api/shop', {
+      headers: { 'Authorization': `Bearer ${authToken}` }
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      userCoins = data.coins;
+      userStars = data.stars;
+      
+      // Update unlocked items
+      data.unlockedItems.forEach(item => {
+        const category = gameData[`${item.itemType}s`];
+        const itemObj = category?.find(i => i.id === item.itemId);
+        if (itemObj) itemObj.unlocked = true;
+      });
+
+      // Update equipped items
+      if (data.equippedItems) {
+        Object.entries(data.equippedItems).forEach(([type, id]) => {
+          const category = gameData[`${type}s`];
+          category?.forEach(item => {
+            item.equipped = item.id === id;
+          });
+        });
+      }
+    }
+  } catch (error) {
+    console.error("Failed to load user data:", error);
+  }
+}
+
+function updateCurrencyDisplay() {
   document.getElementById("coins").textContent = userCoins;
   document.getElementById("stars").textContent = userStars;
+}
+
+// Initialize
+ async function init() {
+  createBackgroundParticles();
+  // Set initial UI values for coins and stars
+  //document.getElementById("coins").textContent = userCoins;
+  //document.getElementById("stars").textContent = userStars;
+   await loadUserData(); // Added this line
+  updateCurrencyDisplay(); // Added this line
   renderCards();
   updateNavigation();
-
+ }
 
 // Create animated background particles
 function createBackgroundParticles() {
@@ -251,7 +297,7 @@ function renderCards() {
 }
 
 // Attach handleUnlock to window so inline onclick works
-window.handleUnlock = function(itemId) {
+/* window.handleUnlock = function(itemId) {
   const item = gameData[currentSection].find((i) => i.id === itemId);
   if (!item || item.unlocked) return;
 
@@ -284,6 +330,7 @@ window.handleUnlock = function(itemId) {
   }
 }
 
+
 // Attach handleEquip to window so inline onclick works
 window.handleEquip = function(itemId) {
   const items = gameData[currentSection];
@@ -298,6 +345,115 @@ window.handleEquip = function(itemId) {
   toEquip.equipped = true;
   renderCards();
 }
+*/
+// Replace your current window.handleUnlock with this:
+window.handleUnlock = async function(itemId) {
+  const item = gameData[currentSection].find(i => i.id === itemId);
+  if (!item || item.unlocked) return;
+
+  if (!authToken) {
+    showLoginPrompt();
+    return;
+  }
+
+  const currencyType = currentSection === 'pets' ? 'stars' : 'coins';
+  const currentCurrency = currencyType === 'stars' ? userStars : userCoins;
+
+  if (currentCurrency < item.cost) {
+    showInsufficientCurrencyAnimation(currencyType);
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:8001/api/shop/purchase', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({
+        itemId: itemId,
+        itemType: currentSection.slice(0, -1), // "pets" -> "pet"
+        cost: item.cost
+      })
+    });
+
+    if (!response.ok) throw new Error('Purchase failed');
+    
+    const result = await response.json();
+    userCoins = result.coins;
+    userStars = result.stars;
+    item.unlocked = true;
+
+    updateCurrencyDisplay();
+    renderCards();
+    showUnlockAnimation(item.name);
+  } catch (error) {
+    console.error("Purchase error:", error);
+    showErrorAnimation("Failed to save purchase");
+  }
+};
+
+// Replace your current window.handleEquip with this:
+window.handleEquip = async function(itemId) {
+  if (!authToken) return;
+
+  try {
+    const response = await fetch('http://localhost:8001/api/shop/equip', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({
+        itemType: currentSection.slice(0, -1), // "pets" -> "pet"
+        itemId: itemId
+      })
+    });
+
+    if (response.ok) {
+      gameData[currentSection].forEach(item => {
+        item.equipped = item.id === itemId;
+      });
+      renderCards();
+    }
+  } catch (error) {
+    console.error("Equip failed:", error);
+  }
+};
+// Add these near your other animation functions
+function showLoginPrompt() {
+  const notification = document.createElement("div");
+  notification.innerHTML = `
+    <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+                background:linear-gradient(135deg,#ff9a44,#ff6b6b);color:white;
+                padding:20px 40px;border-radius:15px;font-weight:bold;z-index:1000;
+                animation:shake 0.6s ease-in-out;box-shadow:0 10px 30px rgba(0,0,0,0.3)">
+      Please <a href="/login" style="color:white;text-decoration:underline">login</a> to save progress!
+    </div>
+  `;
+  document.body.appendChild(notification);
+  setTimeout(() => notification.remove(), 3000);
+}
+
+function showErrorAnimation(message) {
+  const notification = document.createElement("div");
+  notification.style.cssText = `
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    background:linear-gradient(135deg,#ff6b6b,#ff8e8e);color:white;
+    padding:20px 40px;border-radius:15px;font-weight:bold;z-index:1000;
+    animation:shake 0.6s ease-in-out;box-shadow:0 10px 30px rgba(0,0,0,0.3)
+  `;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  setTimeout(() => notification.remove(), 1500);
+}
+
+function showInsufficientCurrencyAnimation(currencyType) {
+  const message = currencyType === 'stars' 
+    ? "⭐ Insufficient Stars!" 
+    : "💰 Insufficient Coins!";
+  showErrorAnimation(message);
 }
 
 // Show unlock animation
