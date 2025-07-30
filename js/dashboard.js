@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { value: 2, label: 'Low', emoji: '😕' },
     { value: 3, label: 'Below Average', emoji: '😐' },
     { value: 4, label: 'Average', emoji: '🙂' },
-    { value: 5, label: 'Good', emoji: '��' },
+    { value: 5, label: 'Good', emoji: '😊' },
     { value: 6, label: 'Great', emoji: '😄' },
     { value: 7, label: 'Excellent', emoji: '😁' },
     { value: 8, label: 'Amazing', emoji: '🤩' },
@@ -82,8 +82,78 @@ document.addEventListener("DOMContentLoaded", () => {
     petsContainer.innerHTML = `<span class="pets-3d" title="${equippedPet.name}">${equippedPet.emoji}</span>`;
   }
 
+  // Load and display user streaks
+  async function loadUserStreaks() {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      // Get user ID from token
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const userId = payload.userId;
+
+      const response = await fetch(`http://localhost:8001/api/log/streaks/${userId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const currentStreak = data.currentStreak || 0;
+        const highestStreak = data.highestStreak || 0;
+
+        // Update the streak display in the dashboard
+        const streakValues = document.querySelector('.streak-texts .values');
+        if (streakValues) {
+          streakValues.innerHTML = `Current: <strong>${currentStreak}</strong> | Highest: <strong>${highestStreak}</strong>`;
+        }
+      }
+    } catch (err) {
+      console.error('Error loading streaks:', err);
+    }
+  }
+
+  // Load and display user level and XP
+  async function loadUserLevelXP() {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const response = await fetch('http://localhost:8001/api/auth/level', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      if (!response.ok) return;
+
+      const data = await response.json();
+      if (data.success) {
+        // Update Level
+        const levelElement = document.querySelector('.xp-level-text');
+        if (levelElement) {
+          levelElement.innerHTML = `Level <strong>${data.level}</strong>`;
+        }
+        
+        // Update XP
+        const xpElement = document.querySelector('.xp-value');
+        if (xpElement) {
+          xpElement.textContent = `XP: ${data.xp}/${data.nextLevelXP}`;
+        }
+        
+        // Update XP Bar
+        const xpBar = document.querySelector('.xp-bar');
+        if (xpBar) {
+          const percent = data.nextLevelXP > 0 ? (data.xp / data.nextLevelXP) * 100 : 100;
+          xpBar.style.width = `${percent}%`;
+        }
+      }
+    } catch (err) {
+      console.error('Error loading level/XP:', err);
+    }
+  }
+
   loadUserEmoji();
   loadEquippedPet();
+  loadUserStreaks();
+  loadUserLevelXP(); // Call the new function here
 });
 
 // Function to check authentication and update greeting
