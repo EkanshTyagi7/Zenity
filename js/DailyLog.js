@@ -103,12 +103,46 @@ function handleLogSubmit() {
     })
     .then(res => res.json())
     .then(data => {
+        // Update streaks on dashboard if we're on the dashboard page
+        if (window.location.pathname.includes('dashboard.html')) {
+            updateDashboardStreaks();
+        }
         window.location.href = 'LogSubmit.html';
     })
     .catch(err => {
         console.error('Failed to save log:', err);
         alert('Error saving log. Try again.');
     });
+}
+
+// Function to update streaks on dashboard
+async function updateDashboardStreaks() {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        // Get user ID from token
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const userId = payload.userId;
+
+        const response = await fetch(`http://localhost:8001/api/log/streaks/${userId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const currentStreak = data.currentStreak || 0;
+            const highestStreak = data.highestStreak || 0;
+
+            // Update the streak display in the dashboard
+            const streakValues = document.querySelector('.streak-texts .values');
+            if (streakValues) {
+                streakValues.innerHTML = `Current: <strong>${currentStreak}</strong> | Highest: <strong>${highestStreak}</strong>`;
+            }
+        }
+    } catch (err) {
+        console.error('Error updating streaks:', err);
+    }
 }
 
 
