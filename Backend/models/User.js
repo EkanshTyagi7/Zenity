@@ -16,6 +16,26 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    currentStreak: {
+      type: Number,
+      default: 0,
+    },
+    highestStreak: {
+      type: Number,
+      default: 0,
+    },
+    lastLogDate: {
+      type: String, // YYYY-MM-DD format
+      default: null,
+    },
+    level: {
+      type: Number,
+      default: 1,
+    },
+    xp: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

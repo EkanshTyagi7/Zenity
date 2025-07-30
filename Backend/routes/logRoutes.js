@@ -6,6 +6,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 router.post('/save', logController.saveLog);
 router.get('/get', logController.getLogByDate);
+router.get('/streaks/:userId', logController.getUserStreaks);
 
 // Get latest (or previous) daily log for the logged-in user
 router.get('/latest', authMiddleware, async (req, res) => {

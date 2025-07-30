@@ -23,4 +23,17 @@ router.get("/verify", authMiddleware, (req, res) => {
     });
 });
 
+// Add level/xp endpoint
+router.get("/level", authMiddleware, (req, res) => {
+    const user = req.user;
+    const nextLevelXP = user.level < 10 ? user.level * 100 : 0;
+    res.json({
+        success: true,
+        level: user.level,
+        xp: user.xp,
+        nextLevelXP,
+        maxLevel: 10
+    });
+});
+
 module.exports = router;
