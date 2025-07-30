@@ -296,6 +296,12 @@ window.handleEquip = function(itemId) {
 
   // Equip selected
   toEquip.equipped = true;
+
+  // If equipping a pet, save to localStorage for dashboard
+  if (currentSection === 'pets') {
+    localStorage.setItem('shopPets', JSON.stringify(gameData.pets));
+  }
+
   renderCards();
 }
 }
