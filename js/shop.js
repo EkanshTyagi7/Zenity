@@ -154,18 +154,13 @@ const gameData = {
 
 let currentSection = "pets";
 let currentIndex = 0;
-let userCoins = 1250;
-let userStars = 1250;
 
 // Initialize
 function init() {
   createBackgroundParticles();
-  // Set initial UI values for coins and stars
-  document.getElementById("coins").textContent = userCoins;
-  document.getElementById("stars").textContent = userStars;
   renderCards();
   updateNavigation();
-
+}
 
 // Create animated background particles
 function createBackgroundParticles() {
@@ -251,30 +246,89 @@ function renderCards() {
 }
 
 // Attach handleUnlock to window so inline onclick works
-window.handleUnlock = function(itemId) {
+window.handleUnlock = async function(itemId) {
   const item = gameData[currentSection].find((i) => i.id === itemId);
   if (!item || item.unlocked) return;
 
-  // Determine which currency to use
+  // Check if user has enough currency using currency manager
   let canBuy = false;
   if (currentSection === 'pets') {
-    if (userStars >= item.cost) {
-      userStars -= item.cost;
-      canBuy = true;
-      document.getElementById("stars").textContent = userStars;
-    }
+    canBuy = window.currencyManager.hasEnoughCurrency(item.cost, 'stars');
   } else {
-    if (userCoins >= item.cost) {
-      userCoins -= item.cost;
-      canBuy = true;
-      document.getElementById("coins").textContent = userCoins;
-    }
+    canBuy = window.currencyManager.hasEnoughCurrency(item.cost, 'coins');
   }
 
   if (canBuy) {
-    item.unlocked = true;
-    renderCards();
-    showUnlockAnimation(item.name);
+    try {
+      // Get user ID from token
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please log in to make purchases');
+        return;
+      }
+      
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const userId = payload.userId;
+
+      // Call backend purchase API
+      const response = await fetch('http://localhost:8001/api/shop/purchase', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          userId,
+          itemType: currentSection,
+          itemId: item.id,
+          itemName: item.name,
+          itemPrice: item.cost
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to process purchase');
+      }
+
+      const data = await response.json();
+      
+      // Show XP notification if XP was awarded
+      if (data.xpAwarded && data.xpAwarded > 0) {
+        const message = `+${data.xpAwarded} XP earned for purchase!`;
+        if (window.showXPNotification) {
+          window.showXPNotification(message, data.leveledUp);
+        } else {
+          console.log(message);
+        }
+        
+        // If user leveled up, show special notification
+        if (data.leveledUp) {
+          const levelUpMessage = `🎉 Congratulations! You reached Level ${data.newLevel}!`;
+          if (window.showXPNotification) {
+            window.showXPNotification(levelUpMessage, true);
+          } else {
+            console.log(levelUpMessage);
+          }
+        }
+      }
+
+      // Update currency display with backend response
+      if (data.remainingCoins !== undefined) {
+        window.currencyManager.coins = data.remainingCoins;
+      }
+      if (data.remainingStars !== undefined) {
+        window.currencyManager.stars = data.remainingStars;
+      }
+      window.currencyManager.updateUI();
+
+      item.unlocked = true;
+      renderCards();
+      showUnlockAnimation(item.name);
+    } catch (err) {
+      console.error('Purchase failed:', err);
+      alert(err.message || 'Failed to process purchase. Please try again.');
+    }
   } else {
     if (currentSection === 'pets') {
       showInsufficientStarsAnimation();
@@ -303,7 +357,6 @@ window.handleEquip = function(itemId) {
   }
 
   renderCards();
-}
 }
 
 // Show unlock animation

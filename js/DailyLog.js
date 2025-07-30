@@ -103,6 +103,43 @@ function handleLogSubmit() {
     })
     .then(res => res.json())
     .then(data => {
+        // Show XP notification if XP was awarded
+        if (data.xpAwarded && data.xpAwarded > 0) {
+          const message = `+${data.xpAwarded} XP earned for daily log!`;
+          if (window.showXPNotification) {
+            window.showXPNotification(message, data.leveledUp);
+          } else {
+            console.log(message);
+          }
+          
+          // If user leveled up, show special notification
+          if (data.leveledUp) {
+            const levelUpMessage = `🎉 Congratulations! You reached Level ${data.newLevel}!`;
+            if (window.showXPNotification) {
+              window.showXPNotification(levelUpMessage, true);
+            } else {
+              console.log(levelUpMessage);
+            }
+          }
+        }
+        
+        // Show currency notification if currency was awarded
+        if (data.coinsAwarded && data.starsAwarded) {
+          const currencyMessage = `+${data.coinsAwarded} Coins & +${data.starsAwarded} Stars earned for daily log!`;
+          if (window.showCombinedCurrencyNotification) {
+            window.showCombinedCurrencyNotification(data.coinsAwarded, data.starsAwarded);
+          } else {
+            console.log(currencyMessage);
+          }
+          
+          // Update currency manager with new values
+          if (window.currencyManager && data.remainingCoins !== undefined && data.remainingStars !== undefined) {
+            window.currencyManager.coins = data.remainingCoins;
+            window.currencyManager.stars = data.remainingStars;
+            window.currencyManager.updateUI();
+          }
+        }
+        
         // Update streaks on dashboard if we're on the dashboard page
         if (window.location.pathname.includes('dashboard.html')) {
             updateDashboardStreaks();

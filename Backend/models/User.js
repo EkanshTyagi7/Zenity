@@ -36,6 +36,14 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    coins: {
+      type: Number,
+      default: 300,
+    },
+    stars: {
+      type: Number,
+      default: 250,
+    },
   },
   { timestamps: true }
 );

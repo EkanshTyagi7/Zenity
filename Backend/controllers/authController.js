@@ -68,7 +68,29 @@ async function handleUserSignIn(req, res) {
   }
 }
 
+//Controller function to get user currency data
+async function getUserCurrency(req, res) {
+  try {
+    const userId = req.user.userId;
+    
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    return res.status(200).json({
+      success: true,
+      coins: user.coins,
+      stars: user.stars
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error. Please try again." });
+  }
+}
+
 module.exports = {
   handleUserSignUp,
   handleUserSignIn,
+  getUserCurrency,
 };

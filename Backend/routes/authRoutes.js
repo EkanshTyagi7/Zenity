@@ -36,4 +36,44 @@ router.get("/level", authMiddleware, (req, res) => {
     });
 });
 
+// Get user's coins and stars
+router.get("/currency", authMiddleware, (req, res) => {
+    const user = req.user;
+    res.json({
+        success: true,
+        coins: user.coins,
+        stars: user.stars
+    });
+});
+
+// Update user's coins and stars
+router.put("/currency", authMiddleware, async (req, res) => {
+    try {
+        const { coins, stars } = req.body;
+        const user = req.user;
+        
+        if (coins !== undefined) {
+            user.coins = Math.max(0, coins); // Ensure coins don't go negative
+        }
+        if (stars !== undefined) {
+            user.stars = Math.max(0, stars); // Ensure stars don't go negative
+        }
+        
+        await user.save();
+        
+        res.json({
+            success: true,
+            coins: user.coins,
+            stars: user.stars,
+            message: "Currency updated successfully"
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to update currency",
+            error: err.message
+        });
+    }
+});
+
 module.exports = router;

@@ -50,15 +50,27 @@ exports.saveLog = async (req, res) => {
     // Update user streaks
     await updateUserStreaks(userId, date);
     
-    // Award XP for new log (50 XP per log)
-    const levelUpResult = await addXPAndHandleLevelUp(userId, 50);
+    // Award XP for new log (5 XP per log)
+    const levelUpResult = await addXPAndHandleLevelUp(userId, 5);
+
+    // Award currency for new log (50 coins, 30 stars)
+    const user = await User.findById(userId);
+    if (user) {
+      user.coins += 50;
+      user.stars += 30;
+      await user.save();
+    }
 
     res.status(201).json({ 
       message: "Log saved",
-      xpAwarded: 50,
+      xpAwarded: 5,
       leveledUp: levelUpResult?.leveledUp || false,
       newLevel: levelUpResult?.newLevel,
-      newXP: levelUpResult?.newXP
+      newXP: levelUpResult?.newXP,
+      coinsAwarded: 50,
+      starsAwarded: 30,
+      remainingCoins: user.coins,
+      remainingStars: user.stars
     });
   } catch (err) {
     res.status(500).json({ error: "Failed to save log" });

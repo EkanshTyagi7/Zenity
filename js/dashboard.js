@@ -82,6 +82,37 @@ document.addEventListener("DOMContentLoaded", () => {
     petsContainer.innerHTML = `<span class="pets-3d" title="${equippedPet.name}">${equippedPet.emoji}</span>`;
   }
 
+  // Load and display user currency (coins and stars)
+  async function loadUserCurrency() {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const response = await fetch('http://localhost:8001/api/auth/currency', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          // Update stars display
+          const starsElement = document.querySelector('.icon-item span');
+          if (starsElement) {
+            starsElement.textContent = data.stars;
+          }
+          
+          // Update coins display
+          const coinsElement = document.querySelectorAll('.icon-item span')[1];
+          if (coinsElement) {
+            coinsElement.textContent = data.coins;
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Error loading currency:', err);
+    }
+  }
+
   // Load and display user streaks
   async function loadUserStreaks() {
     try {
@@ -152,8 +183,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadUserEmoji();
   loadEquippedPet();
+  loadUserCurrency(); // Add this line to load currency
   loadUserStreaks();
   loadUserLevelXP(); // Call the new function here
+  
+  // Initialize currency display
+  if (window.currencyManager) {
+    window.currencyManager.initialize();
+  }
 });
 
 // Function to check authentication and update greeting
@@ -268,3 +305,51 @@ function handleLogout() {
   // Redirect to login page
   window.location.href = 'index.html';
 }
+
+// Function to show XP notifications (available globally)
+function showXPNotification(message, isLevelUp = false) {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = 'xp-notification';
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${isLevelUp ? '#10b981' : '#3b82f6'};
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    font-weight: 600;
+    font-size: 14px;
+    animation: slideIn 0.3s ease-out;
+  `;
+  
+  notification.textContent = message;
+  
+  // Add animation styles
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  document.body.appendChild(notification);
+  
+  // Remove notification after 3 seconds
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease-in';
+    notification.style.transform = 'translateX(100%)';
+    notification.style.opacity = '0';
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 300);
+  }, 3000);
+}
+
+// Make notification function available globally immediately
+window.showXPNotification = showXPNotification;

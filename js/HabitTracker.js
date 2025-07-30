@@ -148,11 +148,83 @@ function openHabitDetail(index) {
 async function toggleTodayCheck(habitIndex = null) {
   if (habitIndex === null) return;
   const habit = habits[habitIndex];
+  
   try {
+    // Get user ID from token
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please log in to update habits');
+      return;
+    }
+    
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userId = payload.userId;
+
     const res = await fetch(`http://localhost:8001/api/habits/${habit._id}/toggle`, {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ userId })
     });
+    
     if (!res.ok) throw new Error("Failed to toggle day");
+    
+    const data = await res.json();
+    
+    // Show XP notification if XP was awarded or deducted
+    if (data.xpChange !== 0) {
+      const message = data.xpChange > 0 
+        ? `+${data.xpChange} XP earned for completing habit!`
+        : `${data.xpChange} XP deducted for unmarking habit.`;
+      
+      // Show notification if we're on dashboard page
+      if (window.showXPNotification) {
+        window.showXPNotification(message, data.leveledUp);
+      } else {
+        console.log(message);
+      }
+      
+      // If user leveled up, show special notification
+      if (data.leveledUp) {
+        const levelUpMessage = `🎉 Congratulations! You reached Level ${data.newLevel}!`;
+        if (window.showXPNotification) {
+          window.showXPNotification(levelUpMessage, true);
+        } else {
+          console.log(levelUpMessage);
+        }
+      }
+    }
+    
+    // Show currency notification if currency was awarded or deducted
+    if (data.coinsAwarded !== 0 && data.starsAwarded !== 0) {
+      if (data.wasCompleted) {
+        // Habit was completed - show award notification
+        const currencyMessage = `+${data.coinsAwarded} Coins & +${data.starsAwarded} Stars earned for completing habit!`;
+        if (window.showCombinedCurrencyNotification) {
+          window.showCombinedCurrencyNotification(data.coinsAwarded, data.starsAwarded);
+        } else {
+          console.log(currencyMessage);
+        }
+      } else {
+        // Habit was unchecked - show deduction notification
+        const currencyMessage = `${data.coinsAwarded} Coins & ${data.starsAwarded} Stars deducted for unchecking habit.`;
+        if (window.showCurrencyNotification) {
+          window.showCurrencyNotification(currencyMessage, 'deduction');
+        } else {
+          console.log(currencyMessage);
+        }
+      }
+      
+      // Update currency manager with new values
+      if (window.currencyManager && data.remainingCoins !== undefined && data.remainingStars !== undefined) {
+        window.currencyManager.coins = data.remainingCoins;
+        window.currencyManager.stars = data.remainingStars;
+        window.currencyManager.updateUI();
+      }
+    }
+    
     await loadHabits();
     openHabitDetail(habitIndex);
   } catch (err) {
