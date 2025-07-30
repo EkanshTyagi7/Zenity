@@ -72,7 +72,11 @@ const sendMessage = async (req, res) => {
 const initializeChannels = async () => {
   try {
     const existingChannels = await Community.find();
-    if (existingChannels.length > 0) return; // Channels already exist
+    if (existingChannels.length > 0) {
+      // Clear all existing channels and messages for fresh start
+      await Community.deleteMany({});
+      console.log("Cleared existing channels and messages");
+    }
 
     const defaultChannels = [
       // Mental Health Support
@@ -98,78 +102,78 @@ const initializeChannels = async () => {
     ];
 
     await Community.insertMany(defaultChannels);
-    console.log("Default channels initialized");
+    console.log("Default channels initialized - clean start");
     
-    // Add some sample messages to make the community more engaging
-    await addSampleMessages();
+    // Sample messages removed - clean start
+    // await addSampleMessages();
   } catch (error) {
     console.error("Error initializing channels:", error);
   }
 };
 
-// Add sample messages to channels
-const addSampleMessages = async () => {
-  try {
-    // Get a sample user or create one for demo purposes
-    let sampleUser = await User.findOne();
-    if (!sampleUser) {
-      // Create a demo user if none exists
-      sampleUser = await User.create({
-        name: "Zenity Bot",
-        email: "bot@zenity.com",
-        password: "demo123"
-      });
-    }
+// Sample messages function removed
+// const addSampleMessages = async () => {
+//   try {
+//     // Get a sample user or create one for demo purposes
+//     let sampleUser = await User.findOne();
+//     if (!sampleUser) {
+//       // Create a demo user if none exists
+//       sampleUser = await User.create({
+//         name: "Zenity Bot",
+//         email: "bot@zenity.com",
+//         password: "demo123"
+//       });
+//     }
 
-    const channels = await Community.find();
+//     const channels = await Community.find();
     
-    // Add sample messages to different channels
-    const sampleMessages = [
-      {
-        channelName: "general-chat",
-        messages: [
-          "Welcome to Zenity Community! 🌱",
-          "How is everyone doing today?",
-          "Remember to take care of yourselves! 💚"
-        ]
-      },
-      {
-        channelName: "daily-gratitude",
-        messages: [
-          "Today I'm grateful for this supportive community 🙏",
-          "Grateful for the sunshine and fresh air today ☀️",
-          "Thankful for small moments of peace and quiet"
-        ]
-      },
-      {
-        channelName: "habit-builder",
-        messages: [
-          "What habits are you working on this week?",
-          "Consistency is key! Keep going! 💪",
-          "Remember, progress over perfection"
-        ]
-      }
-    ];
+//     // Add sample messages to different channels
+//     const sampleMessages = [
+//       {
+//         channelName: "general-chat",
+//         messages: [
+//           "Welcome to Zenity Community! 🌱",
+//           "How is everyone doing today?",
+//           "Remember to take care of yourselves! 💚"
+//         ]
+//       },
+//       {
+//         channelName: "daily-gratitude",
+//         messages: [
+//           "Today I'm grateful for this supportive community 🙏",
+//           "Grateful for the sunshine and fresh air today ☀️",
+//           "Thankful for small moments of peace and quiet"
+//         ]
+//       },
+//       {
+//         channelName: "habit-builder",
+//         messages: [
+//           "What habits are you working on this week?",
+//           "Consistency is key! Keep going! 💪",
+//           "Remember, progress over perfection"
+//         ]
+//       }
+//     ];
 
-    for (const sample of sampleMessages) {
-      const channel = channels.find(c => c.name === sample.channelName);
-      if (channel) {
-        for (const messageText of sample.messages) {
-          channel.messages.push({
-            user: sampleUser._id,
-            content: messageText,
-            timestamp: new Date(Date.now() - Math.random() * 86400000) // Random time in last 24 hours
-          });
-        }
-        await channel.save();
-      }
-    }
+//     for (const sample of sampleMessages) {
+//       const channel = channels.find(c => c.name === sample.channelName);
+//       if (channel) {
+//         for (const messageText of sample.messages) {
+//           channel.messages.push({
+//             user: sampleUser._id,
+//             content: messageText,
+//             timestamp: new Date(Date.now() - Math.random() * 86400000) // Random time in last 24 hours
+//           });
+//         }
+//         await channel.save();
+//       }
+//     }
     
-    console.log("Sample messages added to channels");
-  } catch (error) {
-    console.error("Error adding sample messages:", error);
-  }
-};
+//     console.log("Sample messages added to channels");
+//   } catch (error) {
+//     console.error("Error adding sample messages:", error);
+//   }
+// };
 
 module.exports = {
   getChannels,
