@@ -1,70 +1,85 @@
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="js/dashboard.js" defer></script>
-  </head>
-  <body>
-    <div class="app-container">
-      <aside class="sidebar">
-        <!-- Zenity logo + buttons -->
-        <div class="branding">
-          <img
-            src="img/ZenityLogoNoBG.png"
-            alt="Zenity Logo"
-            class="logo-img"
-          />
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap"
+    rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script src="js/dashboard.js" defer></script>
+</head>
+
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <!-- Zenity logo + buttons -->
+      <div class="branding">
+        <img src="img/ZenityLogoNoBG.png" alt="Zenity Logo" class="logo-img" />
+        <a href="index.html" style="text-decoration: none; color: inherit;">
           <span class="brand-name">Zenity</span>
-        </div>
+        </a>
+      </div>
 
-        <nav class="nav-menu">
-          <button>
-            <img src="img/dailylog.png" class="icon-img" /> Daily Log
-          </button>
-          <button>
-            <img src="img/habit.png" class="icon-img" /> Habit Tracker
-          </button>
-          <button>
-            <img src="img/achievement.png" class="icon-img" /> Achievements
-          </button>
-          <button><img src="img/shop.png" class="icon-img" /> Shop</button>
-          <button><img src="img/rooms.png" class="icon-img" /> Rooms</button>
-          <button>
-            <img src="img/community.png" class="icon-img" /> Community
-          </button>
-        </nav>
-      </aside>
+      <nav class="nav-menu">
+        <button>
+          <img src="img/dailylog.png" class="icon-img" /> Daily Log
+        </button>
+        <button>
+          <img src="img/habit.png" class="icon-img" /> Habit Tracker
+        </button>
+        <button>
+          <img src="img/achievement.png" class="icon-img" /> Achievements
+        </button>
+        <button><img src="img/shop.png" class="icon-img" /> Shop</button>
+        <button><img src="img/rooms.png" class="icon-img" /> Rooms</button>
+        <button>
+          <img src="img/community.png" class="icon-img" /> Community
+        </button>
+      </nav>
+    </aside>
 
-      <div class="main-area">
-        <header class="header">
-          <!-- Coins | Stars | Theme -->
-          <div class="greeting" id="user-greeting">👋 Hello, User</div>
-          <div class="status-icons">
-            <div class="icon-item">
-              <img src="img/star.png" alt="Stars" class="header-icon" />
-              <span>120</span>
-            </div>
-            <div class="icon-item">
-              <img src="img/dollar.png" alt="Coins" class="header-icon" />
-              <span>450</span>
-            </div>
-            <select class="theme-selector">
-              <option value="creamy">Creamy Beige</option>
-              <option value="blue">Ocean Blue</option>
-              <option value="forest">Forest Green</option>
-            </select>
-            <div class="account">
-              <img src="img/profile-user.png" alt="Account">
+    <div class="main-area">
+      <header class="header">
+        <!-- Coins | Stars | Theme -->
+        <div class="greeting" id="user-greeting">👋 Hello, User</div>
+        <div class="status-icons">
+          <div class="icon-item">
+            <img src="img/star.png" alt="Stars" class="header-icon" />
+            <span>120</span>
+          </div>
+          <div class="icon-item">
+            <img src="img/dollar.png" alt="Coins" class="header-icon" />
+            <span>450</span>
+          </div>
+          <select class="theme-selector">
+            <option value="creamy">Creamy Beige</option>
+            <option value="blue">Ocean Blue</option>
+            <option value="forest">Forest Green</option>
+          </select>
+          <div class="account">
+            <img src="img/profile-user.png" alt="Account" id="account-button">
+            <div class="account-dropdown" id="account-dropdown">
+              <div class="dropdown-item" id="my-profile">
+                <i class="fas fa-user"></i>
+                <span>My Profile</span>
+              </div>
+              <div class="dropdown-item" id="account-settings">
+                <i class="fas fa-cog"></i>
+                <span>Account</span>
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" id="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Log Out</span>
+              </div>
             </div>
           </div>
-        </header>
-
+        </div>
+      </header>
+      
+      <div class="dashboard-header-row">
         <div class="top-strip">
           <!-- 🔥 Streak Box -->
           <div class="streak-box">
@@ -76,7 +91,7 @@
               </div>
             </div>
           </div>
-
+  
           <!-- 🧪 XP + Level Box -->
           <div class="xp-box">
             <div class="xp-label-row">
@@ -87,10 +102,20 @@
               <div class="xp-bar"></div>
             </div>
           </div>
-        <main class="dashboard">
-          <!-- Pet | Streaks | Stress | Read | etc -->
-        </main>
+        </div>
+        <!-- Main 3D container for emoji and pet -->
+        <div class="main-3d-container">
+          <div class="pets-3d-container" id="pets-3d-container"></div>
+          <div class="emoji-3d-container" id="emoji-3d-container"></div>
+        </div>
+
       </div>
+      
+
+      <main class="dashboard">
+        <!-- Pet | Streaks | Stress | Read | etc -->
+      </main>
     </div>
-  </body>
+</body>
+
 </html>
