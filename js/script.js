@@ -1,3 +1,33 @@
+// Hero Get Started button sign-in/redirect logic
+document.addEventListener('DOMContentLoaded', () => {
+  const getStartedBtn = document.querySelector('.hero .btn-solid');
+  if (getStartedBtn) {
+    getStartedBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = 'signIn.html?redirect=dashboard.html';
+      } else {
+        window.location.href = 'dashboard.html';
+      }
+    });
+  }
+});
+// Footer community button sign-in/redirect logic
+document.addEventListener('DOMContentLoaded', () => {
+  const footerCommunityBtn = document.querySelector('.footer .community-btn');
+  if (footerCommunityBtn) {
+    footerCommunityBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = 'signIn.html?redirect=dashboard.html';
+      } else {
+        window.location.href = 'dashboard.html';
+      }
+    });
+  }
+});
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
@@ -65,22 +95,40 @@ if (joinImage && joinText) {
 
   joinObserver.observe(joinImage);
 }
-// Fade in/out for Join Us section
-const fadeSection = document.querySelector(".fade-toggle");
 
+// Fade in/out for Join Us section
+const fadeSection = document.querySelector('.fade-toggle');
 const joinobserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        fadeSection.classList.add("visible");
+        fadeSection.classList.add('visible');
       } else {
-        fadeSection.classList.remove("visible");
+        fadeSection.classList.remove('visible');
       }
     });
   },
   { threshold: 0.3 }
 );
-
 if (fadeSection) {
   joinobserver.observe(fadeSection);
 }
+
+// Community button sign-in/redirect logic
+document.addEventListener('DOMContentLoaded', () => {
+  const communityBtn = document.querySelector('.glow-button');
+  if (communityBtn) {
+    communityBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Check for sign-in (assume JWT in localStorage)
+      const token = localStorage.getItem('token');
+      if (!token) {
+        // Not signed in, redirect to signIn with redirect param
+        window.location.href = 'signIn.html?redirect=community.html';
+      } else {
+        // Signed in, go to community
+        window.location.href = 'community.html';
+      }
+    });
+  }
+});
