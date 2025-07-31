@@ -136,14 +136,29 @@ exports.getUserStreaks = async (req, res) => {
     }
 
     // Check if user has logged today
-    const today = new Date().toISOString().split('T')[0];
-    const todayLog = await DailyLog.findOne({ userId, date: today });
-    
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+    const todayLog = await DailyLog.findOne({ userId, date: todayStr });
     let currentStreak = user.currentStreak;
-    
-    // If user hasn't logged today and their last log wasn't today, reset current streak
-    if (!todayLog && user.lastLogDate !== today) {
-      currentStreak = 0;
+
+    if (!todayLog) {
+      if (user.lastLogDate === yesterdayStr) {
+        // Last log was yesterday, streak is still valid
+        // Do nothing, keep currentStreak
+      } else if (user.lastLogDate !== todayStr) {
+        // Last log was before yesterday, streak is broken
+        // Update highestStreak if needed
+        if (user.currentStreak > user.highestStreak) {
+          user.highestStreak = user.currentStreak;
+        }
+        currentStreak = 0;
+        user.currentStreak = 0;
+        await user.save();
+      }
     }
 
     res.status(200).json({
