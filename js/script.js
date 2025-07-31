@@ -1,8 +1,56 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  const ctaButtons = document.getElementById('cta-buttons');
+  const accountBtnContainer = document.getElementById('index-account-btn-container');
+  const accountBtn = document.getElementById('index-account-button');
+  const accountDropdown = document.getElementById('index-account-dropdown');
+  const dropdownItems = accountDropdown ? accountDropdown.querySelectorAll('.dropdown-item') : [];
+
+  if (token) {
+    if (ctaButtons) ctaButtons.style.display = 'none';
+    if (accountBtnContainer) accountBtnContainer.style.display = 'flex';
+  }
+
+  // Dropdown toggle
+  if (accountBtn && accountDropdown) {
+    accountBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      accountDropdown.classList.toggle('show');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) {
+        accountDropdown.classList.remove('show');
+      }
+    });
+
+    dropdownItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        switch (item.id) {
+          case 'index-my-profile':
+            alert('My Profile feature coming soon!');
+            break;
+          case 'index-account-settings':
+            alert('Account Settings feature coming soon!');
+            break;
+          case 'index-logout':
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+            break;
+        }
+        accountDropdown.classList.remove('show');
+      });
+    });
+  }
+});
+
+
 // Hero Get Started button sign-in/redirect logic
 document.addEventListener('DOMContentLoaded', () => {
   const getStartedBtn = document.querySelector('.hero .btn-solid');
   if (getStartedBtn) {
-    getStartedBtn.addEventListener('click', function(e) {
+    getStartedBtn.addEventListener('click', function (e) {
       e.preventDefault();
       const token = localStorage.getItem('token');
       if (!token) {
@@ -17,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const footerCommunityBtn = document.querySelector('.footer .community-btn');
   if (footerCommunityBtn) {
-    footerCommunityBtn.addEventListener('click', function(e) {
+    footerCommunityBtn.addEventListener('click', function (e) {
       e.preventDefault();
       const token = localStorage.getItem('token');
       if (!token) {
@@ -118,7 +166,7 @@ if (fadeSection) {
 document.addEventListener('DOMContentLoaded', () => {
   const communityBtn = document.querySelector('.glow-button');
   if (communityBtn) {
-    communityBtn.addEventListener('click', function(e) {
+    communityBtn.addEventListener('click', function (e) {
       e.preventDefault();
       // Check for sign-in (assume JWT in localStorage)
       const token = localStorage.getItem('token');

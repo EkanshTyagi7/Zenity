@@ -1,266 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zenity</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="js/script.js" defer></script>
-  </head>
-  <body>
-    <!-- Floating Particles Background -->
-    <div class="particles">
-      <div class="particle" style="left: 10%; animation-delay: 0s"></div>
-      <div class="particle" style="left: 20%; animation-delay: 2s"></div>
-      <div class="particle" style="left: 30%; animation-delay: 4s"></div>
-      <div class="particle" style="left: 40%; animation-delay: 6s"></div>
-      <div class="particle" style="left: 50%; animation-delay: 8s"></div>
-      <div class="particle" style="left: 60%; animation-delay: 10s"></div>
-      <div class="particle" style="left: 70%; animation-delay: 12s"></div>
-      <div class="particle" style="left: 80%; animation-delay: 14s"></div>
-      <div class="particle" style="left: 90%; animation-delay: 16s"></div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zenity</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/script.js" defer></script>
+</head>
+
+<body>
+  <!-- Floating Particles Background -->
+  <div class="particles">
+    <div class="particle" style="left: 10%; animation-delay: 0s"></div>
+    <div class="particle" style="left: 20%; animation-delay: 2s"></div>
+    <div class="particle" style="left: 30%; animation-delay: 4s"></div>
+    <div class="particle" style="left: 40%; animation-delay: 6s"></div>
+    <div class="particle" style="left: 50%; animation-delay: 8s"></div>
+    <div class="particle" style="left: 60%; animation-delay: 10s"></div>
+    <div class="particle" style="left: 70%; animation-delay: 12s"></div>
+    <div class="particle" style="left: 80%; animation-delay: 14s"></div>
+    <div class="particle" style="left: 90%; animation-delay: 16s"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <nav class="nav">
+      <div class="logo-section">
+        <div class="logo">
+          <img class="logoImg" src="img/ZenityLogoNoBG.png" alt="logo" />
+        </div>
+        <div class="brand-name">
+          <a href="/">Zenity</a>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="about.html">About</a></li>
+        <li><a href="#features">Challenge Rooms</a></li>
+        <li><a href="#join-us" class="nav-link">Community</a></li>
+      </ul>
+      <div class="cta-buttons" id="cta-buttons">
+        <a href="signIn.html" class="btn btn-outline">Sign In</a>
+        <a href="signUp.html" class="btn btn-solid">Sign Up</a>
+      </div>
+      <div class="account" id="index-account-btn-container" style="display:none;">
+        <img src="img/profile-user.png" alt="Account" id="index-account-button">
+        <div class="account-dropdown" id="index-account-dropdown">
+          <div class="dropdown-item" id="index-my-profile">
+            <i class="fas fa-user"></i>
+            <span>My Profile</span>
+          </div>
+          <div class="dropdown-item" id="index-account-settings">
+            <i class="fas fa-cog"></i>
+            <span>Account</span>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Log Out</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-content-img">
+        <img src="img/Meditation-bro.svg" alt="heroImg" />
+      </div>
+      <div class="hero-content-details">
+        <h1>Level Up Your Mental Wellness Journey</h1>
+        <p>
+          Transform your daily mental health routine into an engaging
+          adventure. Track habits, join challenges, and unlock achievements
+          while building a healthier, happier you.
+        </p>
+        <a href="#features" class="btn btn-solid"> 🚀 Get Started </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Section -->
+  <section class="why-section">
+    <div class="container">
+      <h2 class="section-title">Why Mental Health Matters</h2>
+      <p class="section-subtitle">
+        Taking care of your mental health is not a luxury—it's essential for
+        living your best life
+      </p>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">🧠</div>
+          <h3>Boost Cognitive Function</h3>
+          <p>
+            Regular mental health practices improve focus, memory, and
+            decision-making abilities, helping you perform at your peak.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">💪</div>
+          <h3>Build Emotional Resilience</h3>
+          <p>
+            Develop stronger coping mechanisms and emotional intelligence to
+            navigate life's challenges with confidence.
+          </p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🌟</div>
+          <h3>Enhance Life Quality</h3>
+          <p>
+            Better mental health leads to improved relationships, increased
+            productivity, and a more fulfilling daily experience.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <h2 class="section-title" style="color: white">
+        Game-Changing Features
+      </h2>
+      <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.9)">
+        Discover the powerful tools that make mental wellness fun and
+        rewarding
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <h3>Daily Logs & Habit Tracking</h3>
+          <p>
+            Effortlessly track your daily moods, habits, and wellness
+            activities with our intuitive guided journaling interface that
+            adapts to your unique needs.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <h3>Real-time Challenge Rooms</h3>
+          <p>
+            Join public or private daily wellness challenges with friends and
+            community members. Compete, collaborate, and stay motivated
+            together.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Visual Progress Dashboard</h3>
+          <p>
+            Watch your progress unfold with interactive charts and detailed
+            mood/habit trends that help you understand patterns and celebrate
+            growth.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>XP & Leveling System</h3>
+          <p>
+            Earn experience points through consistent engagement and maintain
+            streaks. Level up your mental wellness game and unlock new
+            features.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏅</div>
+          <h3>Achievements & Badges</h3>
+          <p>
+            Collect meaningful achievements and badges for reaching milestones
+            like maintaining streaks, practicing gratitude, and completing
+            challenges.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3>Customization & Rewards</h3>
+          <p>
+            Spend earned points on avatar upgrades, beautiful app themes, or
+            adopt virtual pets. Make your wellness journey uniquely yours.
+          </p>
+        </div>
+
+        <div class="feature-card community-card">
+          <div class="feature-icon">👥</div>
+          <h3>Community Features</h3>
+          <p>
+            Connect with like-minded individuals, share experiences, and
+            encourage each other to maintain positive mental health habits in
+            a supportive environment.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Join Us Section -->
+  <section class="join-section" id="join-us">
+    <div class="join-particles">
+      <div class="join-particle" style="left: 10%; animation-delay: 0s"></div>
+      <div class="join-particle" style="left: 30%; animation-delay: 3s"></div>
+      <div class="join-particle" style="left: 50%; animation-delay: 6s"></div>
+      <div class="join-particle" style="left: 70%; animation-delay: 9s"></div>
+      <div class="join-particle" style="left: 85%; animation-delay: 12s"></div>
+    </div>
+    <div class="container">
+      <div class="join-content fade-toggle">
+        <div class="join-image">
+          <img src="img/medititive-removebg-preview.png" alt="Meditating Woman">
+          <div class="join-text">
+            <h2>Join the Wellness Revolution</h2>
+            <p>
+              Step into a world where your mental health matters — every single day. Zenity helps you build better
+              habits, track your emotions, and grow stronger from the inside out. Empower your journey with community
+              support and gamified motivation.
+            </p>
+            <div style="margin-top: 2rem;">
+              <a href="#signup" class="btn glow-button">🌱 Connect With Community</a>
+            </div>
+          </div>
+        </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-top">
+      <div class="footer-nav">
+        <div class="nav-col">
+          <h4>Zenity</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="#privacy">Feedback</a></li>
+          </ul>
+        </div>
+        <div class="nav-col">
+          <h4>Features</h4>
+          <ul>
+            <li><a href="DailyLog.html">Daily Log</a></li>
+            <li><a href="HabitTracker.html">Habit Tracker</a></li>
+            <li><a href="#challengeRooms">Challenge Rooms</a></li>
+          </ul>
+        </div>
+        <div class="nav-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="https://github.com/EkanshTyagi7/Zenity.git" target="_blank">Github</a></li>
+          </ul>
+          <a href="#signup" class="btn community-btn">Join Our Community</a>
+        </div>
+      </div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-      <nav class="nav">
-        <div class="logo-section">
-          <div class="logo">
-            <img class="logoImg" src="img/ZenityLogoNoBG.png" alt="logo" />
-          </div>
-          <div class="brand-name">
-            <a href="/">Zenity</a>
-          </div>
+    <div class="container footer-bottom">
+      <div class="footer-socials">
+        <div class="social-link">
+          <img src="img/icons8-github-48.png" alt="Github">
+          <span class="label">Github</span>
         </div>
-        <ul class="nav-links">
-          <li><a href="about.html">About</a></li>
-          <li><a href="#features">Challenge Rooms</a></li>
-          <li><a href="#join-us" class="nav-link">Community</a></li>
-        </ul>
-        <div class="cta-buttons">
-          <a href="signIn.html" class="btn btn-outline">Sign In</a>
-          <a href="signUp.html" class="btn btn-solid">Sign Up</a>
+        <div class="social-link">
+          <img src="img/TWITTER.png" alt="Twitter">
+          <span class="label">Twitter</span>
         </div>
-      </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <div class="hero-content-img">
-          <img src="img/Meditation-bro.svg" alt="heroImg" />
+        <div class="social-link">
+          <img src="img/instagram.png" alt="Instagram">
+          <span class="label">Instagram</span>
         </div>
-        <div class="hero-content-details">
-          <h1>Level Up Your Mental Wellness Journey</h1>
-          <p>
-            Transform your daily mental health routine into an engaging
-            adventure. Track habits, join challenges, and unlock achievements
-            while building a healthier, happier you.
-          </p>
-          <a href="#features" class="btn btn-solid"> 🚀 Get Started </a>
+        <div class="social-link">
+          <img src="img/icons8-linkedin-logo-48.png" alt="LinkedIn">
+          <span class="label">LinkedIn</span>
         </div>
       </div>
-    </section>
+      <p class="copyright">&copy; 2025 Zenity. All rights reserved.</p>
+    </div>
+  </footer>
 
-    <!-- Why Section -->
-    <section class="why-section">
-      <div class="container">
-        <h2 class="section-title">Why Mental Health Matters</h2>
-        <p class="section-subtitle">
-          Taking care of your mental health is not a luxury—it's essential for
-          living your best life
-        </p>
+</body>
 
-        <div class="why-grid">
-          <div class="why-card">
-            <div class="why-icon">🧠</div>
-            <h3>Boost Cognitive Function</h3>
-            <p>
-              Regular mental health practices improve focus, memory, and
-              decision-making abilities, helping you perform at your peak.
-            </p>
-          </div>
-          <div class="why-card">
-            <div class="why-icon">💪</div>
-            <h3>Build Emotional Resilience</h3>
-            <p>
-              Develop stronger coping mechanisms and emotional intelligence to
-              navigate life's challenges with confidence.
-            </p>
-          </div>
-          <div class="why-card">
-            <div class="why-icon">🌟</div>
-            <h3>Enhance Life Quality</h3>
-            <p>
-              Better mental health leads to improved relationships, increased
-              productivity, and a more fulfilling daily experience.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section">
-      <div class="container">
-        <h2 class="section-title" style="color: white">
-          Game-Changing Features
-        </h2>
-        <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.9)">
-          Discover the powerful tools that make mental wellness fun and
-          rewarding
-        </p>
-
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon">📝</div>
-            <h3>Daily Logs & Habit Tracking</h3>
-            <p>
-              Effortlessly track your daily moods, habits, and wellness
-              activities with our intuitive guided journaling interface that
-              adapts to your unique needs.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">🏆</div>
-            <h3>Real-time Challenge Rooms</h3>
-            <p>
-              Join public or private daily wellness challenges with friends and
-              community members. Compete, collaborate, and stay motivated
-              together.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3>Visual Progress Dashboard</h3>
-            <p>
-              Watch your progress unfold with interactive charts and detailed
-              mood/habit trends that help you understand patterns and celebrate
-              growth.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">⚡</div>
-            <h3>XP & Leveling System</h3>
-            <p>
-              Earn experience points through consistent engagement and maintain
-              streaks. Level up your mental wellness game and unlock new
-              features.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">🏅</div>
-            <h3>Achievements & Badges</h3>
-            <p>
-              Collect meaningful achievements and badges for reaching milestones
-              like maintaining streaks, practicing gratitude, and completing
-              challenges.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">🎨</div>
-            <h3>Customization & Rewards</h3>
-            <p>
-              Spend earned points on avatar upgrades, beautiful app themes, or
-              adopt virtual pets. Make your wellness journey uniquely yours.
-            </p>
-          </div>
-
-          <div class="feature-card community-card">
-            <div class="feature-icon">👥</div>
-            <h3>Community Features</h3>
-            <p>
-              Connect with like-minded individuals, share experiences, and
-              encourage each other to maintain positive mental health habits in
-              a supportive environment.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Join Us Section -->
-    <section class="join-section" id="join-us">
-      <div class="join-particles">
-        <div class="join-particle" style="left: 10%; animation-delay: 0s"></div>
-        <div class="join-particle" style="left: 30%; animation-delay: 3s"></div>
-        <div class="join-particle" style="left: 50%; animation-delay: 6s"></div>
-        <div class="join-particle" style="left: 70%; animation-delay: 9s"></div>
-        <div class="join-particle" style="left: 85%; animation-delay: 12s"></div>
-      </div>
-      <div class="container">
-        <div class="join-content fade-toggle">
-          <div class="join-image">
-            <img src="img/medititive-removebg-preview.png" alt="Meditating Woman">
-            <div class="join-text">
-              <h2>Join the Wellness Revolution</h2>
-              <p>
-                Step into a world where your mental health matters — every single day. Zenity helps you build better habits, track your emotions, and grow stronger from the inside out. Empower your journey with community support and gamified motivation.
-              </p>
-              <div style="margin-top: 2rem;">
-                <a href="#signup" class="btn glow-button">🌱 Connect With Community</a>
-              </div>
-            </div>            
-      </div>
-    </section>
-    
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container footer-top">
-        <div class="footer-nav">
-          <div class="nav-col">
-            <h4>Zenity</h4>
-            <ul>
-              <li><a href="about.html">About</a></li>
-              <li><a href="#privacy">Feedback</a></li>
-            </ul>
-          </div>
-          <div class="nav-col">
-            <h4>Features</h4>
-            <ul>
-              <li><a href="DailyLog.html">Daily Log</a></li>
-              <li><a href="HabitTracker.html">Habit Tracker</a></li>
-              <li><a href="#challengeRooms">Challenge Rooms</a></li>
-            </ul>
-          </div>
-          <div class="nav-col">
-            <h4>Explore</h4>
-            <ul>
-              <li><a href="https://github.com/EkanshTyagi7/Zenity.git" target="_blank">Github</a></li>
-            </ul>
-            <a href="#signup" class="btn community-btn">Join Our Community</a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="container footer-bottom">
-        <div class="footer-socials">
-          <div class="social-link">
-            <img src="img/icons8-github-48.png" alt="Github">
-            <span class="label">Github</span>
-          </div>
-          <div class="social-link">
-            <img src="img/TWITTER.png" alt="Twitter">
-            <span class="label">Twitter</span>
-          </div>
-          <div class="social-link">
-            <img src="img/instagram.png" alt="Instagram">
-            <span class="label">Instagram</span>
-          </div>
-          <div class="social-link">
-            <img src="img/icons8-linkedin-logo-48.png" alt="LinkedIn">
-            <span class="label">LinkedIn</span>
-          </div>
-        </div>
-        <p class="copyright">&copy; 2025 Zenity. All rights reserved.</p>
-      </div>
-    </footer>
-    
-  </body>
 </html>
