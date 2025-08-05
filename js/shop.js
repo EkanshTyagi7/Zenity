@@ -158,14 +158,14 @@ let userCoins = 1250;
 let userStars = 1250;
  
 // Add these right after your gameData constant
-let authToken = localStorage.getItem('token');
+let authToken = localStorage.getItem('authToken');
 
 // Add this new function (keep all your existing variables)
 async function loadUserData() {
   if (!authToken) return;
   
   try {
-    const response = await fetch('http://localhost:8001/api/shop', {
+    const response = await fetch('/api/shop', {
       headers: { 'Authorization': `Bearer ${authToken}` }
     });
 
@@ -365,7 +365,7 @@ window.handleUnlock = async function(itemId) {
   }
 
   try {
-    const response = await fetch('http://localhost:8001/api/shop/purchase', {
+    const response = await fetch('/api/shop/purchase', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -399,7 +399,7 @@ window.handleEquip = async function(itemId) {
   if (!authToken) return;
 
   try {
-    const response = await fetch('http://localhost:8001/api/shop/equip', {
+    const response = await fetch('/api/shop/equip', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
