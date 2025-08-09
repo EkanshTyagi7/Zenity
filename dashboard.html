@@ -11,6 +11,7 @@
   <script src="js/xpNotifications.js"></script>
   <script src="js/currencyManager.js"></script>
   <script src="js/currencyNotifications.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/dashboard.js" defer></script>
 </head>
 
@@ -83,35 +84,61 @@
       </header>
       
       <div class="dashboard-header-row">
-        <div class="top-strip">
-          <!-- 🔥 Streak Box -->
-          <div class="streak-box">
-            <span class="streak-emoji">🔥</span>
-            <div class="streak-texts">
-              <div class="label">Streaks</div>
-              <div class="values">
-                Current: <strong>3</strong> | Highest: <strong>10</strong>
+        <div class="left-column">
+          <div class="top-strip">
+            <!-- 🔥 Streak Box -->
+            <div class="streak-box">
+              <span class="streak-emoji">🔥</span>
+              <div class="streak-texts">
+                <div class="label">Streaks</div>
+                <div class="values">
+                  Current: <strong>3</strong> | Highest: <strong>10</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- 🧪 XP + Level Box -->
+            <div class="xp-box">
+              <div class="xp-label-row">
+                <span class="xp-level-text">Level <strong>5</strong></span>
+                <span class="xp-value">XP: 300/500</span>
+              </div>
+              <div class="xp-bar-container">
+                <div class="xp-bar"></div>
               </div>
             </div>
           </div>
-  
-          <!-- 🧪 XP + Level Box -->
-          <div class="xp-box">
-            <div class="xp-label-row">
-              <span class="xp-level-text">Level <strong>5</strong></span>
-              <span class="xp-value">XP: 300/500</span>
+
+          <!-- Sleep chart card under top strip -->
+          <div class="sleep-card" id="sleep-card">
+            <div class="sleep-card-header">
+              <span class="sleep-title">Sleep</span>
+              <span class="sleep-subtitle" id="sleep-date-label"></span>
             </div>
-            <div class="xp-bar-container">
-              <div class="xp-bar"></div>
+            <div class="sleep-card-body">
+              <canvas id="sleep-chart-canvas"></canvas>
+              <div id="sleep-empty-state" class="sleep-empty">No sleep data yet. Log your day to see insights.</div>
+            </div>
+          </div>
+
+          <!-- Mental health metrics chart card -->
+          <div class="mental-card" id="mental-card">
+            <div class="mental-card-header">
+              <span class="mental-title">Mental Health Metrics</span>
+              <span class="mental-subtitle" id="mental-date-label"></span>
+            </div>
+            <div class="mental-card-body">
+              <canvas id="mental-chart-canvas"></canvas>
+              <div id="mental-empty-state" class="mental-empty">No metrics yet. Log your day to see anxiety, stress and energy here.</div>
             </div>
           </div>
         </div>
+
         <!-- Main 3D container for emoji and pet -->
         <div class="main-3d-container">
           <div class="pets-3d-container" id="pets-3d-container"></div>
           <div class="emoji-3d-container" id="emoji-3d-container"></div>
         </div>
-
       </div>
       
 

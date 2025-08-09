@@ -296,16 +296,24 @@ body {
   gap: 0;
 }
 
+.left-column{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  padding-right: 16px; /* ensures equal gap from the pet/emoji for both top-strip and sleep-card */
+}
+
 .top-strip {
   align-self: flex-start;
-  /* border: 1px solid red; */
+  /* border: 1px solid blue; */
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
   margin-block: 1rem;
-  flex: 1;
-  padding-right: 16px;
+  flex: 1 1 auto;
+  width: 100%;
   flex-wrap: nowrap;
 }
 
@@ -323,19 +331,17 @@ body {
   min-height: 56px;
   height: 100%;
   transition: all 0.2s ease;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .streak-box {
   gap: 12px;
-  /* max-width: 240px; */
-  width: 50%;
 }
 
 .xp-box {
   flex-direction: column;
   justify-content: center;
-  /* max-width: 240px; */
-  width: 50%;
   gap: 6px;
 }
 
@@ -474,4 +480,89 @@ body {
   0% { transform: scale(1); }
   50% { transform: scale(1.12); }
   100% { transform: scale(1); }
+}
+
+/* Sleep card */
+.sleep-card{
+  background: linear-gradient(135deg, #eae7ff 0%, #d6ccff 100%);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 16px rgba(102,126,234,0.15);
+  width: 100%;
+}
+
+.sleep-card-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.sleep-title{
+  font-weight: 700;
+  color: #5935a6;
+}
+
+.sleep-subtitle{
+  font-size: 12px;
+  color: #5637a1;
+  opacity: 0.8;
+}
+
+.sleep-card-body{
+  position: relative;
+}
+
+#sleep-chart-canvas{
+  width: 100% !important;
+  max-height: 240px;
+}
+
+.sleep-empty{
+  text-align: center;
+  color: #4b3ca3;
+  padding: 24px 8px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+/* Mental card styles (different look from sleep) */
+.mental-card{
+  background: linear-gradient(135deg, #eae7ff 0%, #d6ccff 100%);
+  border-radius: 14px;
+  padding: 16px 16px 12px 16px;
+  box-shadow: 0 4px 16px rgba(102,126,234,0.15);
+  border: 1px solid rgba(102, 126, 234, 0.12);
+}
+
+.mental-card-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.mental-title{
+  font-weight: 800;
+  color: #5935a6;
+}
+
+.mental-subtitle{
+  font-size: 12px;
+  color: #5637a1;
+}
+
+.mental-card-body{ position: relative; }
+
+#mental-chart-canvas{
+  width: 100% !important;
+  max-height: 260px;
+}
+
+.mental-empty{
+  text-align: center;
+  color: #4b3ca3;
+  padding: 24px 8px;
+  font-weight: 600;
+  opacity: 0.75;
 }

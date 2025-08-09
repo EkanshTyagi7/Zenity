@@ -140,9 +140,22 @@ function handleLogSubmit() {
           }
         }
         
+        // Notify other tabs/pages (like dashboard) that a log was saved
+        try {
+          localStorage.setItem('lastLogSavedAt', String(Date.now()));
+          localStorage.setItem('lastSleepData', JSON.stringify({ date: todayLog.date, sleep: todayLog.sleep }));
+          localStorage.setItem('lastMentalData', JSON.stringify({
+            date: todayLog.date,
+            anxiety: todayLog.anxiety,
+            stress: todayLog.stress,
+            energy: todayLog.energy
+          }));
+        } catch (e) {}
+
         // Update streaks on dashboard if we're on the dashboard page
         if (window.location.pathname.includes('dashboard.html')) {
             updateDashboardStreaks();
+            if (window.refreshSleepChart) window.refreshSleepChart();
         }
         window.location.href = 'LogSubmit.html';
     })

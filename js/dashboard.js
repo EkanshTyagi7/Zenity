@@ -186,6 +186,15 @@ document.addEventListener("DOMContentLoaded", () => {
   loadUserCurrency(); // Add this line to load currency
   loadUserStreaks();
   loadUserLevelXP(); // Call the new function here
+  initializeSleepChartCard();
+  // Listen for log save events from other pages (via localStorage)
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'lastLogSavedAt' || e.key === 'lastSleepData') {
+      initializeSleepChartCard();
+      initializeMentalChartCard();
+    }
+  });
+  initializeMentalChartCard();
   
   // Initialize currency display
   if (window.currencyManager) {
@@ -353,3 +362,195 @@ function showXPNotification(message, isLevelUp = false) {
 
 // Make notification function available globally immediately
 window.showXPNotification = showXPNotification;
+
+// Sleep chart logic
+let sleepChart = null;
+
+function initializeSleepChartCard() {
+  const canvas = document.getElementById('sleep-chart-canvas');
+  const emptyState = document.getElementById('sleep-empty-state');
+  const dateLabel = document.getElementById('sleep-date-label');
+  if (!canvas || !emptyState) return;
+
+  // Fetch latest log for the user
+  (async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        emptyState.style.display = 'block';
+        return;
+      }
+      const res = await fetch('http://localhost:8001/api/log/latest', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (!data.success || !data.log || !data.log.sleep) {
+        showEmptySleepChart(emptyState, canvas);
+        return;
+      }
+      const log = data.log;
+      const hours = typeof log.sleep.hours === 'number' ? log.sleep.hours : null;
+      const quality = typeof log.sleep.quality === 'number' ? log.sleep.quality : null;
+
+      if (dateLabel && log.date) {
+        const dateObj = new Date(log.date);
+        if (!isNaN(dateObj.getTime())) {
+          dateLabel.textContent = dateObj.toLocaleDateString();
+        } else {
+          dateLabel.textContent = log.date;
+        }
+      }
+
+      if (hours == null && quality == null) {
+        showEmptySleepChart(emptyState, canvas);
+        return;
+      }
+      emptyState.style.display = 'none';
+      canvas.style.display = 'block';
+      renderSleepChart(canvas, hours ?? 0, quality ?? 0);
+    } catch (e) {
+      showEmptySleepChart(emptyState, canvas);
+    }
+  })();
+}
+
+function showEmptySleepChart(emptyState, canvas) {
+  if (sleepChart) {
+    sleepChart.destroy();
+    sleepChart = null;
+  }
+  if (canvas) canvas.style.display = 'none';
+  if (emptyState) emptyState.style.display = 'block';
+}
+
+function renderSleepChart(canvas, hours, quality) {
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (sleepChart) sleepChart.destroy();
+
+  const qualityLabels = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+  const qualityIndex = Math.min(Math.max(quality - 1, 0), 4);
+  const qualityDisplay = qualityLabels[qualityIndex] || 'Unknown';
+
+  sleepChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Hours Slept', 'Quality'],
+      datasets: [{
+        label: 'Sleep',
+        data: [hours, quality],
+        backgroundColor: ['#7c6ae6', '#a584ff'],
+        borderRadius: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              if (ctx.dataIndex === 0) return `${ctx.dataset.label}: ${hours}h`;
+              if (ctx.dataIndex === 1) return `Quality: ${qualityDisplay} (${quality}/5)`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: (val) => val,
+          },
+          suggestedMax: Math.max(10, (hours || 0) + 2)
+        }
+      }
+    }
+  });
+}
+
+// Expose a small hook to refresh the sleep chart after saving a log, if needed
+window.refreshSleepChart = initializeSleepChartCard;
+
+// Mental metrics chart logic (radar)
+let mentalChart = null;
+
+function initializeMentalChartCard() {
+  const canvas = document.getElementById('mental-chart-canvas');
+  const empty = document.getElementById('mental-empty-state');
+  const dateLabel = document.getElementById('mental-date-label');
+  if (!canvas || !empty) return;
+
+  (async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) { empty.style.display = 'block'; return; }
+      const res = await fetch('http://localhost:8001/api/log/latest', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (!data.success || !data.log) { showEmptyMental(canvas, empty); return; }
+      const log = data.log;
+      if (dateLabel && log.date) {
+        const d = new Date(log.date);
+        dateLabel.textContent = isNaN(d.getTime()) ? log.date : d.toLocaleDateString();
+      }
+      const anxiety = typeof log.anxiety === 'number' ? log.anxiety : null;
+      const stress = typeof log.stress === 'number' ? log.stress : null;
+      const energy = typeof log.energy === 'number' ? log.energy : null;
+      if (anxiety == null && stress == null && energy == null) {
+        showEmptyMental(canvas, empty); return;
+      }
+      empty.style.display = 'none';
+      canvas.style.display = 'block';
+      renderMentalChart(canvas, anxiety ?? 0, stress ?? 0, energy ?? 0);
+    } catch (e) {
+      showEmptyMental(canvas, empty);
+    }
+  })();
+}
+
+function showEmptyMental(canvas, empty) {
+  if (mentalChart) { mentalChart.destroy(); mentalChart = null; }
+  if (canvas) canvas.style.display = 'none';
+  if (empty) empty.style.display = 'block';
+}
+
+function renderMentalChart(canvas, anxiety, stress, energy) {
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (mentalChart) mentalChart.destroy();
+
+  mentalChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['Anxiety', 'Stress', 'Energy'],
+      datasets: [{
+        label: 'Level (1-5)',
+        data: [anxiety, stress, energy],
+        backgroundColor: 'rgba(133, 152, 235, 0.28)',
+        borderColor: '#8d71eb',
+        pointBackgroundColor: '#8d71eb',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: '#8d71eb',
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        r: {
+          beginAtZero: true,
+          min: 0,
+          max: 5,
+          ticks: { stepSize: 1 },
+          grid: { color: 'rgba(141,113,235,0.18)' },
+          angleLines: { color: 'rgba(141,113,235,0.18)' }
+        }
+      }
+    }
+  });
+}
