@@ -195,6 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   initializeMentalChartCard();
+  initializeReadSection();
+  initializeStreakCalendar();
+  initializeMoodHistory();
   
   // Initialize currency display
   if (window.currencyManager) {
@@ -550,6 +553,281 @@ function renderMentalChart(canvas, anxiety, stress, energy) {
           grid: { color: 'rgba(141,113,235,0.18)' },
           angleLines: { color: 'rgba(141,113,235,0.18)' }
         }
+      }
+    }
+  });
+}
+
+// Read section: 3 daily picks refreshed once per day
+function initializeReadSection() {
+  const list = document.getElementById('read-list');
+  if (!list) return;
+  try {
+    const todayKey = new Date().toISOString().split('T')[0];
+    const cacheKey = `readPicks:${todayKey}`;
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      renderRead(JSON.parse(cached));
+      return;
+    }
+  } catch(_) {}
+
+  // Static pool of wellness article ideas; could be replaced with API later
+  const pool = [
+    { title: '5-Minute Breathing Reset', source: 'Zenity Guides' },
+    { title: 'Sleep Hygiene: Small Habits, Big Impact', source: 'Zenity Guides' },
+    { title: 'Journaling Prompts for Clarity', source: 'Zenity Guides' },
+    { title: 'Gentle Stretch Routine for Desk Days', source: 'Zenity Guides' },
+    { title: 'Beat Afternoon Slump with Light Walks', source: 'Zenity Guides' },
+    { title: 'Mindful Phone Use: 3 Micro-Rules', source: 'Zenity Guides' },
+    { title: 'Hydration and Mood: What Science Says', source: 'Zenity Guides' }
+  ];
+  // Deterministic daily selection based on date
+  const seed = new Date().getDate();
+  const picks = [];
+  for (let i = 0; i < 3; i++) {
+    const idx = (seed + i * 3) % pool.length;
+    picks.push(pool[idx]);
+  }
+  try {
+    const todayKey = new Date().toISOString().split('T')[0];
+    localStorage.setItem(`readPicks:${todayKey}`, JSON.stringify(picks));
+  } catch(_) {}
+  renderRead(picks);
+}
+
+function renderRead(picks) {
+  const list = document.getElementById('read-list');
+  if (!list) return;
+  list.innerHTML = '';
+  picks.forEach((p, i) => {
+    const li = document.createElement('li');
+    li.className = 'read-item';
+    li.innerHTML = `
+      <div class="read-thumb" style="background: ${['#c8b8ff','#b7a8f7','#8d71eb'][i%3]}"></div>
+      <div class="read-meta">
+        <div class="read-title-text" data-index="${i}">${p.title}</div>
+        <div class="read-source">${p.source}</div>
+      </div>`;
+    list.appendChild(li);
+  });
+
+  // Attach click to open modal with content
+  list.querySelectorAll('.read-title-text').forEach(el => {
+    el.addEventListener('click', () => {
+      const i = Number(el.getAttribute('data-index'));
+      openReadModal(picks[i]);
+    });
+  });
+}
+
+function openReadModal(pick) {
+  const modal = document.getElementById('read-modal');
+  const title = document.getElementById('read-modal-title');
+  const source = document.getElementById('read-modal-source');
+  const body = document.getElementById('read-modal-body');
+  const closeBtn = document.getElementById('read-modal-close');
+  const backdrop = document.getElementById('read-modal-backdrop');
+  if (!modal) return;
+
+  title.textContent = pick.title;
+  source.textContent = pick.source;
+  body.innerHTML = getArticleHtml(pick.title);
+  modal.hidden = false;
+  const close = () => { modal.hidden = true; };
+  closeBtn.onclick = close;
+  backdrop.onclick = close;
+}
+
+function getArticleHtml(title) {
+  const paragraphs = {
+    '5-Minute Breathing Reset': [
+      'Find a comfortable seat. Close your eyes or soften your gaze.',
+      'Inhale through the nose for 4 seconds, hold for 2, exhale for 6. Repeat for five cycles.',
+      'Notice the sensation in your chest and shoulders. Release tension with each exhale.'
+    ],
+    'Sleep Hygiene: Small Habits, Big Impact': [
+      'Aim for a consistent sleep-wake time, even on weekends.',
+      'Reduce screens 60 minutes before bed. Try a warm light or a short page of reading.',
+      'Keep your room cool and dark. A small wind-down routine signals your brain to sleep.'
+    ],
+    'Journaling Prompts for Clarity': [
+      '1) What do I need right now? 2) What can I let go of? 3) What would make tomorrow 1% better?',
+      'Write freely for five minutes. Don’t edit. Let thoughts flow onto the page.',
+      'Close by writing one gentle intention for tomorrow.'
+    ],
+    'Mindful Phone Use: 3 Micro-Rules': [
+      'Move distracting apps off your home screen or use Focus modes.',
+      'Create a charging station outside the bedroom.',
+      'Before unlocking your phone, ask: Why now? What for? What else could I do instead?'
+    ],
+    'Gentle Stretch Routine for Desk Days': [
+      'Neck rolls, shoulder circles, and hip openers—one minute each.',
+      'Stand every 30–45 minutes. Shake out your hands and take 3 slow breaths.',
+      'Finish with a forward fold and calf stretch to re-energize.'
+    ],
+    'Beat Afternoon Slump with Light Walks': [
+      'A 10-minute outdoor walk improves alertness and mood.',
+      'Pair with sunshine and water for a triple boost.',
+      'Schedule it on your calendar to make it a non-negotiable micro-habit.'
+    ],
+    'Hydration and Mood: What Science Says': [
+      'Mild dehydration can reduce concentration and elevate fatigue.',
+      'Aim for steady sips across the day; keep a bottle within reach.',
+      'Add a pinch of electrolytes during workouts or hot days.'
+    ],
+  };
+  const content = paragraphs[title] || ['Short article coming soon.'];
+  return content.map(p => `<p>${p}</p>`).join('');
+}
+
+// Streak calendar: mark which days this month have a log
+async function initializeStreakCalendar() {
+  const grid = document.getElementById('calendar-grid');
+  const monthLabel = document.getElementById('streak-month-label');
+  if (!grid || !monthLabel) return;
+  grid.innerHTML = '';
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const monthName = now.toLocaleString('default', { month: 'long', year: 'numeric' });
+  monthLabel.textContent = monthName;
+
+  // Build grid placeholders from weekday index of first day
+  const startWeekday = firstDay.getDay(); // 0=Sun
+  for (let i = 0; i < startWeekday; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'cal-day';
+    empty.style.visibility = 'hidden';
+    grid.appendChild(empty);
+  }
+
+  // Fetch latest log dates for the month (naive: query each day using existing endpoint)
+  const token = localStorage.getItem('token');
+  let userId = null;
+  if (token) {
+    try { userId = JSON.parse(atob(token.split('.')[1])).userId; } catch(_) {}
+  }
+
+  const dayHasLog = new Set();
+  if (userId) {
+    // sequential fetch per day (month length <= 31) using /api/log/get?userId&date
+    const promises = [];
+    const formatLocalDate = (dt) => {
+      const y = dt.getFullYear();
+      const m = String(dt.getMonth() + 1).padStart(2, '0');
+      const d = String(dt.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    };
+    for (let d = 1; d <= lastDay.getDate(); d++) {
+      const dateStr = formatLocalDate(new Date(year, month, d));
+      promises.push(
+        fetch(`http://localhost:8001/api/log/get?userId=${userId}&date=${dateStr}`)
+          .then(r => r.json())
+          .then(data => { if (data && data._id) dayHasLog.add(d); })
+          .catch(() => {})
+      );
+    }
+    await Promise.all(promises);
+  }
+
+  for (let d = 1; d <= lastDay.getDate(); d++) {
+    const div = document.createElement('div');
+    div.className = 'cal-day' + (dayHasLog.has(d) ? ' logged' : '');
+    if (d === now.getDate()) div.classList.add('today');
+    grid.appendChild(div);
+  }
+}
+
+// Mood history: 7–14 days line with emoji markers
+async function initializeMoodHistory() {
+  const canvas = document.getElementById('mood-history-canvas');
+  const empty = document.getElementById('mood-empty-state');
+  const label = document.getElementById('mood-range-label');
+  if (!canvas || !label) return;
+  const ctx = canvas.getContext('2d');
+
+  const token = localStorage.getItem('token');
+  let userId = null;
+  if (token) {
+    try { userId = JSON.parse(atob(token.split('.')[1])).userId; } catch(_) {}
+  }
+
+  const logs = [];
+  const days = 10; // gather last 10 days
+  const formatLocalDate = (dt) => {
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, '0');
+    const d = String(dt.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  };
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = formatLocalDate(d);
+    if (userId) {
+      try {
+        // reuse existing endpoint by date
+        const res = await fetch(`http://localhost:8001/api/log/get?userId=${userId}&date=${dateStr}`);
+        const data = await res.json();
+        if (data && data._id && typeof data.mood === 'number') {
+          logs.push({ date: dateStr, mood: data.mood });
+        } else {
+          logs.push({ date: dateStr, mood: null });
+        }
+      } catch { logs.push({ date: dateStr, mood: null }); }
+    } else {
+      logs.push({ date: dateStr, mood: null });
+    }
+  }
+
+  const labels = logs.map(l => new Date(l.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
+  const values = logs.map(l => l.mood ?? null);
+  if (values.every(v => v == null)) {
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  label.textContent = `${labels[0]} - ${labels[labels.length-1]}`;
+
+  // Convert emojis by mood (1..10) to array for tooltip markers
+  const moodEmojis = ['😢','😕','😐','🙂','😊','😄','😁','🤩','😍','🥰'];
+
+  // Draw line chart
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        borderColor: '#8d71eb',
+        backgroundColor: 'rgba(141,113,235,0.2)',
+        pointRadius: 4,
+        pointBackgroundColor: '#8d71eb',
+        spanGaps: true,
+        tension: 0.3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const v = ctx.parsed.y;
+              if (v == null) return 'No mood logged';
+              const idx = Math.min(Math.max(Math.round(v) - 1, 0), 9);
+              return `${moodEmojis[idx]} Mood: ${v}`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: { suggestedMin: 1, suggestedMax: 10, ticks: { stepSize: 1 } }
       }
     }
   });

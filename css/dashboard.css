@@ -132,6 +132,7 @@ body {
   flex-direction: column;
   background-color: #fdfaf6;
   padding-left: 280px;
+  padding-bottom: 1rem; /* give breathing room at bottom of content */
 }
 .header {
   /* background-color: #fdf6ec; */
@@ -423,7 +424,7 @@ body {
   flex-direction: row;
   align-self: flex-start;
   justify-content: center;
-  align-items: flex-end;
+  align-items: flex-start; /* align tops to remove top gap above pet */
   gap: 16px;
   margin-top: 16px;
   position: relative;
@@ -431,10 +432,19 @@ body {
   flex-shrink: 0;
 }
 
+.right-mini-column{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+}
+
+.emoji-column{ display:flex; flex-direction: column; gap:16px; }
+
 .emoji-3d-container {
   position: static;
   width: 448px; /* 400 * 1.12 */
-  height: 538px; /* 480 * 1.12 */
+  height: 500px; /* reduced to lift Mood History to align with Streak Calendar */
   background: radial-gradient(circle at 60% 40%, #e6e2ff 0%, #b7a8f7 60%, #8d71eb 100%);
   display: flex;
   align-items: center;
@@ -467,6 +477,68 @@ body {
   box-shadow: 0 8px 32px 0 rgba(102, 126, 234, 0.25), 0 2px 8px 0 #b7a8f7, 0 0px 0px #fff;
 }
 
+/* Read card below pet */
+.read-card{
+  background: linear-gradient(135deg, #eae7ff 0%, #d6ccff 100%);
+  border-radius: 12px;
+  padding: 12px 12px 8px 12px;
+  box-shadow: 0 8px 24px rgba(102,126,234,0.15);
+  width: 246px;
+}
+.read-card-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.read-title{ font-weight: 800; color: #5935a6; }
+.read-subtitle{ font-size: 12px; color: #5637a1; opacity: .85; }
+.read-list{ list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.read-item{ display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center; }
+.read-thumb{ width: 40px; height: 40px; border-radius: 8px; background: #c8b8ff; box-shadow: inset 0 0 0 2px rgba(255,255,255,.6); }
+.read-meta{ display:flex; flex-direction: column; }
+.read-title-text{ font-size: 12px; font-weight: 700; color:#3f2e89; line-height: 1.2; cursor: pointer; }
+.read-source{ font-size: 11px; color:#5a4fb7; opacity:.85; }
+
+/* Read modal */
+.read-modal[hidden]{ display: none; }
+.read-modal{ position: fixed; inset: 0; z-index: 1000; }
+.read-modal-backdrop{ position: absolute; inset:0; background: rgba(0,0,0,0.3); }
+.read-modal-content{ position: relative; max-width: 640px; margin: 8vh auto; background: #fff; border-radius: 14px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); overflow: hidden; }
+.read-modal-header{ display:flex; justify-content: space-between; align-items:center; padding: 16px; background: linear-gradient(135deg, #eae7ff 0%, #d6ccff 100%);} 
+#read-modal-close{ background: transparent; border: none; font-size: 22px; cursor: pointer; color: #4b3ca3; }
+.read-modal-source{ padding: 0 16px; color:#6b6ea5; font-size: 13px; }
+.read-modal-body{ padding: 16px; color:#2f2f49; line-height: 1.6; max-height: 60vh; overflow: auto; }
+
+/* Streak calendar card */
+.streak-calendar-card{
+  background: linear-gradient(135deg, #eae7ff 0%, #d6ccff 100%);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 8px 24px rgba(102,126,234,0.15);
+  width: 246px;
+}
+.streak-card-header{ display:flex; justify-content: space-between; align-items:center; margin-bottom:8px; }
+.streak-title{ font-weight:800; color:#5935a6; }
+.streak-subtitle{ font-size:12px; color:#5637a1; opacity:.85; }
+.calendar-grid{ display:grid; grid-template-columns: repeat(7, 1fr); gap:6px; }
+.cal-day{ width: 26px; height: 26px; border-radius:6px; background:#ece6ff; box-shadow: inset 0 0 0 1px rgba(141,113,235,.15); }
+.cal-day.logged{ background:#8d71eb; box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); }
+.cal-day.today{ outline: 2px solid #4b3ca3; }
+
+/* Mood history card */
+.mood-card{
+  background: linear-gradient(135deg, #eae7ff 0%, #d6ccff 100%);
+  border-radius: 12px;
+  padding: 12px 12px 8px 12px;
+  box-shadow: 0 8px 24px rgba(102,126,234,0.15);
+  height: 230px; /* fix height to align with bottom of pet column */
+}
+.mood-card-header{ display:flex; justify-content: space-between; align-items:center; margin-bottom:8px; }
+.mood-title{ font-weight:800; color:#5935a6; }
+.mood-subtitle{ font-size:12px; color:#5637a1; opacity:.85; }
+#mood-history-canvas{ width:100% !important; height: 180px; }
+
 .pets-3d {
   font-size: 9rem;
   filter: drop-shadow(0 8px 32px rgba(102,126,234,0.18));
@@ -489,6 +561,7 @@ body {
   padding: 12px 14px;
   box-shadow: 0 4px 16px rgba(102,126,234,0.15);
   width: 100%;
+  height: 305px; /* increased to align metrics card bottom with calendar */
 }
 
 .sleep-card-header{
@@ -515,7 +588,7 @@ body {
 
 #sleep-chart-canvas{
   width: 100% !important;
-  max-height: 240px;
+  height: 230px;
 }
 
 .sleep-empty{
@@ -533,6 +606,7 @@ body {
   padding: 16px 16px 12px 16px;
   box-shadow: 0 4px 16px rgba(102,126,234,0.15);
   border: 1px solid rgba(102, 126, 234, 0.12);
+  height: 340px; /* fixed height to remove gap but not exceed mood history */
 }
 
 .mental-card-header{
@@ -556,7 +630,7 @@ body {
 
 #mental-chart-canvas{
   width: 100% !important;
-  max-height: 260px;
+  height: 285px;
 }
 
 .mental-empty{

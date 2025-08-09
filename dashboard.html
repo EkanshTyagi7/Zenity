@@ -136,8 +136,39 @@
 
         <!-- Main 3D container for emoji and pet -->
         <div class="main-3d-container">
-          <div class="pets-3d-container" id="pets-3d-container"></div>
-          <div class="emoji-3d-container" id="emoji-3d-container"></div>
+          <div class="right-mini-column">
+            <div class="pets-3d-container" id="pets-3d-container"></div>
+            <!-- Read section under the pet -->
+            <div class="read-card" id="read-card">
+              <div class="read-card-header">
+                <span class="read-title">Read</span>
+                <span class="read-subtitle">Daily picks</span>
+              </div>
+              <ul class="read-list" id="read-list"></ul>
+            </div>
+            <!-- Streak calendar mini heatmap -->
+            <div class="streak-calendar-card" id="streak-calendar-card">
+              <div class="streak-card-header">
+                <span class="streak-title">Streak Calendar</span>
+                <span class="streak-subtitle" id="streak-month-label"></span>
+              </div>
+              <div class="calendar-grid" id="calendar-grid"></div>
+            </div>
+          </div>
+          <div class="emoji-column">
+            <div class="emoji-3d-container" id="emoji-3d-container"></div>
+            <!-- Mood history chart under emoji -->
+            <div class="mood-card" id="mood-card">
+              <div class="mood-card-header">
+                <span class="mood-title">Mood History</span>
+                <span class="mood-subtitle" id="mood-range-label"></span>
+              </div>
+              <div class="mood-card-body">
+                <canvas id="mood-history-canvas"></canvas>
+                <div id="mood-empty-state" class="mental-empty">No mood entries yet.</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -145,6 +176,19 @@
       <main class="dashboard">
         <!-- Pet | Streaks | Stress | Read | etc -->
       </main>
+      
+      <!-- Read article modal -->
+      <div id="read-modal" class="read-modal" hidden>
+        <div class="read-modal-backdrop" id="read-modal-backdrop"></div>
+        <div class="read-modal-content">
+          <div class="read-modal-header">
+            <h3 id="read-modal-title"></h3>
+            <button id="read-modal-close" aria-label="Close">×</button>
+          </div>
+          <div class="read-modal-source" id="read-modal-source"></div>
+          <div class="read-modal-body" id="read-modal-body"></div>
+        </div>
+      </div>
     </div>
 </body>
 

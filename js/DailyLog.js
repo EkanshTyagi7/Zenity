@@ -12,7 +12,14 @@ function getUserIdFromToken() {
 }
 
 const userId = getUserIdFromToken();
-const currentDate = new Date().toISOString().split('T')[0];
+// Use LOCAL date (YYYY-MM-DD) to avoid timezone shifting issues
+function formatLocalDate(dateObj) {
+    const y = dateObj.getFullYear();
+    const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const d = String(dateObj.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+}
+const currentDate = formatLocalDate(new Date());
 let todayLog = null;
 const moodOptions = [
     { value: 1, label: 'Very Low', emoji: '😢', color: '#ef4444' },
