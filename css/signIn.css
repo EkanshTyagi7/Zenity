@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
 * {
   margin: 0;
@@ -292,7 +292,7 @@ body {
   font-size: 16px;
   background: rgba(255, 255, 255, 0.8);
   transition: all 0.3s ease;
-  font-family: "Inter", sans-serif;
+  font-family: inherit;
 }
 
 .form-input:focus {
@@ -325,7 +325,7 @@ body {
   text-decoration: none;
   display: inline-block;
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: inherit;
   position: relative;
   overflow: hidden;
 }
