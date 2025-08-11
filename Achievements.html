@@ -3,117 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zenity – Achievements & Badges</title>
-  <style>
-    /* ---------- Base ---------- */
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-      background:linear-gradient(135deg,#0f0f23 0%,#1a1a2e 100%);
-      color:#fff;min-height:100vh;padding:20px
-    }
-    .container{max-width:1200px;margin:0 auto}
-
-    /* ---------- Header ---------- */
-    .header{display:flex;align-items:center;gap:15px;margin-bottom:30px}
-    .logo{
-      width:50px;height:50px;border-radius:12px;
-      background:linear-gradient(45deg,#8b5cf6,#ec4899);
-      display:flex;align-items:center;justify-content:center;
-      font-weight:bold;font-size:20px
-    }
-    .title{
-      font-size:2.5rem;font-weight:700;
-      background:linear-gradient(45deg,#8b5cf6,#ec4899);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text
-    }
-
-    /* ---------- Tabs ---------- */
-    .nav-tabs{display:flex;gap:10px;margin-bottom:30px}
-    .tab-button{
-      padding:12px 24px;border:none;border-radius:10px;font-weight:600;
-      cursor:pointer;transition:.3s;font-size:1rem
-    }
-    .tab-button.active{
-      background:#fbbf24;color:#000;transform:translateY(-2px);
-      box-shadow:0 8px 20px rgba(251,191,36,.3)
-    }
-    .tab-button:not(.active){
-      background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);
-      border:1px solid rgba(255,255,255,.2)
-    }
-    .tab-button:not(.active):hover{
-      background:rgba(255,255,255,.2);transform:translateY(-1px)
-    }
-
-    /* ---------- Sections ---------- */
-    .section{display:none}.section.active{display:block}
-
-    /* ---------- Achievement cards ---------- */
-    .achievements-grid{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px
-    }
-    .achievement-card{
-      background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);
-      border-radius:20px;padding:25px;transition:.3s;overflow:hidden;position:relative
-    }
-    .achievement-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,0,0,.3)}
-    .achievement-card.unlocked{
-      border-color:transparent;
-      background:linear-gradient(135deg,var(--card-color-1),var(--card-color-2));
-      animation:glow 2s ease-in-out infinite alternate
-    }
-    @keyframes glow{from{box-shadow:0 0 20px rgba(255,255,255,.1)}to{box-shadow:0 0 30px rgba(255,255,255,.2)}}
-    .achievement-card.locked{filter:grayscale(100%);opacity:.5}
-    .achievement-icon{width:60px;height:60px;margin-bottom:15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1);font-size:1.5rem}
-    .achievement-name{font-size:1.2rem;font-weight:700;margin-bottom:8px}
-    .achievement-description{font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:15px}
-    .achievement-status{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600}
-    .status-dot{width:8px;height:8px;border-radius:50%;background:#ef4444}
-    .status-dot.completed{background:#22c55e}
-
-    /* ---------- Badge cards ---------- */
-    .badges-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
-    .badge-card{
-      background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);
-      border-radius:20px;padding:30px;text-align:center;transition:.3s;position:relative
-    }
-    .badge-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,.3)}
-    .badge-card.unlocked{
-      border-color:transparent;
-      background:linear-gradient(135deg,var(--badge-color-1),var(--badge-color-2));
-      animation:pulse 3s ease-in-out infinite
-    }
-    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
-    .badge-card.locked{filter:grayscale(100%);opacity:.4}
-    .badge-level{
-      background:rgba(255,255,255,.2);color:#fff;padding:5px 15px;border-radius:20px;
-      font-size:.8rem;font-weight:600;margin-bottom:15px;display:inline-block
-    }
-    .badge-icon{width:80px;height:80px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1);font-size:2rem}
-    .badge-name{font-size:1.3rem;font-weight:700;margin-bottom:10px}
-    .badge-requirement{font-size:.9rem;color:rgba(255,255,255,.7)}
-
-    /* ---------- Responsive ---------- */
-    @media(max-width:768px){
-      .title{font-size:2rem}
-      .achievements-grid,.badges-grid{grid-template-columns:1fr}
-    }
-  </style>
+  <title>Achievements</title>
+  <link rel="stylesheet" href="./css/achievement.css">
+  <script src="js/achievement.js" defer></script>
+ 
 </head>
 <body>
   <div class="container">
     <!-- Header -->
     <div class="header">
-      <div class="logo">Z</div>
+      <div class="logo"><img src="img/ZenityLogoNoBG.png" alt="Zenity Logo"></div>
       <h1 class="title">Zenity</h1>
     </div>
 
     <!-- Tabs -->
-    <div class="nav-tabs">
-      <button class="tab-button active" onclick="switchTab('achievements')">Achievements</button>
-      <button class="tab-button" onclick="switchTab('badges')">Badges</button>
-    </div>
+  <div class="nav-tabs">
+    <button class="tab-button active" onclick="switchTab('achievements')">Achievements</button>
+    <button class="tab-button" onclick="switchTab('badges')">Badges</button>
+  </div>
 
     <!-- Achievements -->
     <div id="achievements" class="section active">
@@ -126,154 +33,6 @@
     </div>
   </div>
 
-  <script>
-    /* ---------- User data ---------- */
-    let userStats={
-      dailyLogins:0,
-      questionsSolved:0,
-      currentStreak:0,
-      currentLevel:1,
-      signedUp:true,
-      totalPoints:0
-    };
-
-    /* ---------- Achievement definitions ---------- */
-    const achievements=[
-      {
-        id:1,
-        name:"Welcome Aboard",
-        description:"Complete your signup and join the community",
-        icon:"⭐",
-        condition:()=>userStats.signedUp,
-        colors:["#8b5cf6","#ec4899"]
-      },
-      {
-        id:2,
-        name:"Daily Warrior",
-        description:"Log in for 5 consecutive days",
-        icon:"📅",
-        condition:()=>userStats.dailyLogins>=5,
-        colors:["#3b82f6","#06b6d4"]
-      },
-      {
-        id:3,
-        name:"Problem Solver",
-        description:"Solve 5 questions successfully",
-        icon:"🎯",
-        condition:()=>userStats.questionsSolved>=5,
-        colors:["#10b981","#059669"]
-      },
-      {
-        id:4,
-        name:"Streak Master",
-        description:"Maintain a 7‑day learning streak",
-        icon:"🔥",
-        condition:()=>userStats.currentStreak>=7,
-        colors:["#f59e0b","#dc2626"]
-      },
-      {
-        id:5,
-        name:"Knowledge Seeker",
-        description:"Earn 100 total points",
-        icon:"📚",
-        condition:()=>userStats.totalPoints>=100,
-        colors:["#6366f1","#8b5cf6"]
-      },
-      {
-        id:6,
-        name:"First Steps",
-        description:"Complete your first challenge",
-        icon:"🏆",
-        condition:()=>userStats.questionsSolved>=1,
-        colors:["#fbbf24","#f59e0b"]
-      }
-    ];
-
-    /* ---------- Badge definitions ---------- */
-    const badges=[
-      {level:1,name:"Bronze Explorer",icon:"🥉",requirement:"Reach Level 1",colors:["#cd7f32","#8b4513"]},
-      {level:2,name:"Silver Adventurer",icon:"🥈",requirement:"Reach Level 2",colors:["#c0c0c0","#808080"]},
-      {level:3,name:"Gold Champion",icon:"🥇",requirement:"Reach Level 3",colors:["#ffd700","#daa520"]},
-      {level:4,name:"Platinum Elite",icon:"💎",requirement:"Reach Level 4",colors:["#06b6d4","#0284c7"]},
-      {level:5,name:"Diamond Master",icon:"⚡",requirement:"Reach Level 5",colors:["#67e8f9","#0891b2"]},
-      {level:6,name:"Legendary Hero",icon:"🚀",requirement:"Reach Level 6",colors:["#a78bfa","#ec4899"]}
-    ];
-
-    /* ---------- Tab switcher ---------- */
-    function switchTab(tabName){
-      document.querySelectorAll('.tab-button').forEach(btn=>btn.classList.remove('active'));
-      event.target.classList.add('active');
-      document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active'));
-      document.getElementById(tabName).classList.add('active');
-    }
-
-    /* ---------- Render achievements ---------- */
-    function renderAchievements(){
-      const grid=document.getElementById('achievementsGrid');grid.innerHTML='';
-      achievements.forEach(a=>{
-        const unlocked=a.condition();
-        const card=document.createElement('div');
-        card.className=`achievement-card ${unlocked?'unlocked':'locked'}`;
-        if(unlocked){
-          card.style.setProperty('--card-color-1',a.colors[0]);
-          card.style.setProperty('--card-color-2',a.colors[1]);
-        }
-        card.innerHTML=`
-          <div class="achievement-icon">${a.icon}</div>
-          <div class="achievement-name">${a.name}</div>
-          <div class="achievement-description">${a.description}</div>
-          <div class="achievement-status">
-            <div class="status-dot ${unlocked?'completed':''}"></div>
-            <span>${unlocked?'Completed':'Locked'}</span>
-          </div>`;
-        grid.appendChild(card);
-      });
-    }
-
-    /* ---------- Render badges ---------- */
-    function renderBadges(){
-      const grid=document.getElementById('badgesGrid');grid.innerHTML='';
-      badges.forEach(b=>{
-        const unlocked=userStats.currentLevel>=b.level;
-        const card=document.createElement('div');
-        card.className=`badge-card ${unlocked?'unlocked':'locked'}`;
-        if(unlocked){
-          card.style.setProperty('--badge-color-1',b.colors[0]);
-          card.style.setProperty('--badge-color-2',b.colors[1]);
-        }
-        card.innerHTML=`
-          <div class="badge-level">Level ${b.level}</div>
-          <div class="badge-icon">${b.icon}</div>
-          <div class="badge-name">${b.name}</div>
-          <div class="badge-requirement">${b.requirement}</div>`;
-        grid.appendChild(card);
-      });
-    }
-
-    /* ---------- Level‑up toast ---------- */
-    function showLevelUpNotification(level){
-      const note=document.createElement('div');
-      note.style.cssText=`
-        position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-        background:linear-gradient(45deg,#8b5cf6,#ec4899);color:#fff;
-        padding:20px 40px;border-radius:15px;font-size:1.2rem;font-weight:bold;
-        z-index:1000;animation:levelUp 2s ease-out forwards;
-        box-shadow:0 20px 60px rgba(139,92,246,.5)`;
-      note.textContent = `🎉 Level Up! You're now Level ${level}!`;
-      document.body.appendChild(note);
-      const style=document.createElement('style');
-      style.textContent=`@keyframes levelUp{
-        0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}
-        50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
-        100%{opacity:0;transform:translate(-50%,-50%) scale(1)}
-      }`;
-      document.head.appendChild(style);
-      setTimeout(()=>{note.remove();style.remove()},2000);
-    }
-
-    /* ---------- Init ---------- */
-    function init(){renderAchievements();renderBadges()}
-    init();
-  </script>
+  
 </body>
 </html>

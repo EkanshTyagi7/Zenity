@@ -1,0 +1,327 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+/* Base */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  min-height: 100vh;
+  padding: 20px;
+}
+.container { max-width: 1200px; margin: 0 auto; }
+
+/* Header */
+.header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+.logo { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.logo img { width: 100%; height: 100%; object-fit: contain; }
+.title { font-size: 2.5rem; font-weight: 800; letter-spacing: 0.5px; }
+
+/* Tabs */
+.nav-tabs { display: flex; gap: 10px; margin-bottom: 30px; }
+.tab-button { padding: 12px 24px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: .3s; font-size: 1rem; color: #000; }
+.tab-button.active { background: #fbbf24; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(251,191,36,.3); }
+.tab-button:not(.active) { background: rgba(255,255,255,.12); color: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.2); }
+.tab-button:not(.active):hover { background: rgba(255,255,255,.2); transform: translateY(-1px); }
+
+/* Sections */
+.section { display: none; }
+.section.active { display: block; }
+
+/* Achievement cards */
+.achievements-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.achievement-card { background: rgba(255,255,255,.06); border: 2px solid rgba(255,255,255,.12); border-radius: 20px; padding: 24px; transition: .3s; overflow: hidden; position: relative; }
+.achievement-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,.25); }
+.achievement-card.unlocked { border-color: transparent; background: linear-gradient(135deg, var(--card-color-1), var(--card-color-2)); }
+.achievement-icon { width: 60px; height: 60px; margin-bottom: 16px; display:flex; align-items:center; justify-content:center; border-radius: 50%; background: rgba(255,255,255,.18); font-size: 1.5rem; }
+.achievement-name { font-size: 1.25rem; font-weight: 800; margin-bottom: 8px; }
+.achievement-description { font-size: .95rem; color: rgba(255,255,255,.9); margin-bottom: 16px; }
+.achievement-status { display:flex; align-items:center; gap: 8px; font-size: .85rem; font-weight: 700; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
+.status-dot.completed { background: #22c55e; }
+
+/* Badge grid and cards */
+.badges-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 520px)); gap: 20px; justify-content: start; }
+.badge-card { background: rgba(255,255,255,.06); border: 2px solid rgba(255,255,255,.12); border-radius: 18px; padding: 22px; text-align: center; transition: .3s; position: relative; overflow: hidden; max-width: 520px; }
+.badge-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,.25); }
+.badge-card.unlocked { border-color: transparent; background: linear-gradient(135deg, var(--badge-color-1), var(--badge-color-2)); }
+.badge-icon { width: 72px; height: 72px; margin: 0 auto 14px; display:flex; align-items:center; justify-content:center; border-radius: 50%; background: rgba(255,255,255,.18); font-size: 2rem; }
+.badge-name { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+.badge-requirement { font-size: .9rem; color: rgba(255,255,255,.9); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .title { font-size: 2rem; }
+  .achievements-grid { grid-template-columns: 1fr; }
+}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ---------- Base ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+}
+
+body {
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto
+}
+
+/* ---------- Header ---------- */
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* ---------- Tabs ---------- */
+.nav-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px
+}
+
+.tab-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+    font-size: 1rem
+}
+
+.tab-button.active {
+    background: #fbbf24;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(251, 191, 36, .3)
+}
+
+.tab-button:not(.active) {
+    background: rgba(255, 255, 255, .1);
+    color: rgba(255, 255, 255, .7);
+    border: 1px solid rgba(255, 255, 255, .2)
+}
+
+.tab-button:not(.active):hover {
+    background: rgba(255, 255, 255, .2);
+    transform: translateY(-1px)
+}
+
+/* ---------- Sections ---------- */
+.section {
+    display: none
+}
+
+.section.active {
+    display: block
+}
+
+/* ---------- Achievement cards ---------- */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px
+}
+
+.achievement-card {
+    background: rgba(255, 255, 255, .05);
+    border: 2px solid rgba(255, 255, 255, .1);
+    border-radius: 20px;
+    padding: 25px;
+    transition: .3s;
+    overflow: hidden;
+    position: relative
+}
+
+.achievement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .3)
+}
+
+.achievement-card.unlocked {
+    border-color: transparent;
+    background: linear-gradient(135deg, var(--card-color-1), var(--card-color-2));
+    animation: glow 2s ease-in-out infinite alternate
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 20px rgba(255, 255, 255, .1)
+    }
+
+    to {
+        box-shadow: 0 0 30px rgba(255, 255, 255, .2)
+    }
+}
+
+.achievement-card.locked {
+    filter: grayscale(100%);
+    opacity: .5
+}
+
+.achievement-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .1);
+    font-size: 1.5rem
+}
+
+.achievement-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 8px
+}
+
+.achievement-description {
+    font-size: .9rem;
+    color: rgba(255, 255, 255, .8);
+    margin-bottom: 15px
+}
+
+.achievement-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .8rem;
+    font-weight: 600
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ef4444
+}
+
+.status-dot.completed {
+    background: #22c55e
+}
+
+/* ---------- Badge cards ---------- */
+.badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px
+}
+
+.badge-card {
+    background: rgba(255, 255, 255, .05);
+    border: 2px solid rgba(255, 255, 255, .1);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    transition: .3s;
+    position: relative
+}
+
+.badge-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .3)
+}
+
+.badge-card.unlocked {
+    border-color: transparent;
+    background: linear-gradient(135deg, var(--badge-color-1), var(--badge-color-2));
+    animation: pulse 3s ease-in-out infinite
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1)
+    }
+
+    50% {
+        transform: scale(1.02)
+    }
+}
+
+.badge-card.locked {
+    filter: grayscale(100%);
+    opacity: .4
+}
+
+.badge-level {
+    background: rgba(255, 255, 255, .2);
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: .8rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: inline-block
+}
+
+.badge-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .1);
+    font-size: 2rem
+}
+
+.badge-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px
+}
+
+.badge-requirement {
+    font-size: .9rem;
+    color: rgba(255, 255, 255, .7)
+}
+
+/* ---------- Responsive ---------- */
+@media(max-width:768px) {
+    .title {
+        font-size: 2rem
+    }
+
+    .achievements-grid,
+    .badges-grid {
+        grid-template-columns: 1fr
+    }
+}
