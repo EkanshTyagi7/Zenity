@@ -1,6 +1,7 @@
 **Zenity – Gamified Mental Health Tracker**
 
 A playful approach to serious wellness** – Zenity turns self-care into a game with daily logs, habit tracking, achievements, badges, and even cartoon pets.  
+
 Backed by secure authentication and a supportive community chat.
 
 
@@ -21,14 +22,19 @@ Backed by secure authentication and a supportive community chat.
 **Frontend**
 
 1.Daily Logs – Record and track daily mental health entries.
+
 2.Habit Tracking – Monitor and visualize progress over time.
+
 3.Achievements & Badges – Unlock rewards for consistency.
+
 4.Shop – Purchase in-app upgrades or customization items.
+
 5.Cartoon Pets – Fun companions that evolve with your journey.
 
 **Backend**
 
 1.Community Chat – Real-time interaction for peer support.
+
 2.Authorization – Secure login, registration, and token-based authentication.
 
 **Technologies/Libraries/Packages Used**
@@ -36,10 +42,15 @@ Backed by secure authentication and a supportive community chat.
 **1.Core Technologies:**
 
 1.HTML
+
 2.CSS
+
 3.JS
+
 4.Node.js
+
 5.Express.js
+
 6.Mongodb
 
 **2.Libraries:**
@@ -52,27 +63,36 @@ Backed by secure authentication and a supportive community chat.
 **3.Packages:**
 
 1.bcryptjs – Password hashing.
+
 2.cookie-parser – Parse HTTP cookies.
+
 3.cors – Enable cross-origin requests.
+
 4.jsonwebtoken – Token-based authentication.
+
 5.uuid – Generate unique identifiers.
+
 6.nodemon – Auto-restart server on file changes.
 
 **Local Setup**
 
-1.Clone the repository 
- bash
-   git clone <repository_url>
+1.Clone the repository---- git clone <repository_url>
+   
 2. Install dependencies - npm install
+
 3. Start the application - npm start
+
 
 
 **Team Members**
 
 Ekansh Tyagi
+
 Aniket Shewale
-Hifzan Ansari
+
+Hifzaan Ansari
 
 **Demo Video**
 
+https://github.com/user-attachments/assets/535c3fe1-c6cf-4b50-8d40-cdb67f3b0e1c
 
