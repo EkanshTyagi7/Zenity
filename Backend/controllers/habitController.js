@@ -1,7 +1,6 @@
 const Habit = require('../models/Habit');
 const User = require('../models/User');
 
-// Helper function to add XP and handle level up
 async function addXPAndHandleLevelUp(userId, xpToAdd) {
   try {
     const user = await User.findById(userId);
@@ -11,14 +10,12 @@ async function addXPAndHandleLevelUp(userId, xpToAdd) {
     let level = user.level;
     let leveledUp = false;
 
-    // Check for level up (max level 10)
     while (level < 10 && xp >= level * 100) {
       xp -= level * 100;
       level += 1;
       leveledUp = true;
     }
 
-    // Cap at level 10, XP doesn't increase further
     if (level >= 10) {
       level = 10;
       xp = 0;
@@ -78,7 +75,7 @@ exports.toggleHabitDay = async (req, res) => {
     const habit = await Habit.findById(req.params.id);
     const today = new Date().toISOString().split("T")[0];
     const index = habit.completedDays.indexOf(today);
-    const userId = req.body.userId; // Get userId from request body
+    const userId = req.body.userId; 
 
     let wasCompleted = false;
     let xpChange = 0;
@@ -86,14 +83,12 @@ exports.toggleHabitDay = async (req, res) => {
     let starsAwarded = 0;
 
     if (index > -1) {
-      // Unmarking the habit - deduct 2 XP, 10 coins, 5 stars
       habit.completedDays.splice(index, 1);
       xpChange = -2;
       coinsAwarded = -10;
       starsAwarded = -5;
       wasCompleted = false;
     } else {
-      // Marking the habit as complete - award 2 XP, 10 coins, 5 stars
       habit.completedDays.push(today);
       xpChange = 2;
       coinsAwarded = 10;
@@ -103,13 +98,13 @@ exports.toggleHabitDay = async (req, res) => {
 
     await habit.save();
 
-    // Update user XP and currency if userId is provided
+    
     let levelUpResult = null;
     let user = null;
     if (userId && (xpChange !== 0 || coinsAwarded !== 0 || starsAwarded !== 0)) {
       levelUpResult = await addXPAndHandleLevelUp(userId, xpChange);
       
-      // Update currency (award or deduct based on completion status)
+      
       user = await User.findById(userId);
       if (user) {
         user.coins = Math.max(0, user.coins + coinsAwarded);

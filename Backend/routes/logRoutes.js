@@ -8,11 +8,9 @@ router.post('/save', logController.saveLog);
 router.get('/get', logController.getLogByDate);
 router.get('/streaks/:userId', logController.getUserStreaks);
 
-// Get latest (or previous) daily log for the logged-in user
 router.get('/latest', authMiddleware, async (req, res) => {
   try {
     const userId = req.user._id;
-    // Find the most recent log (sort by date descending)
     const log = await DailyLog.findOne({ userId }).sort({ date: -1 });
     if (!log) {
       return res.json({ success: true, log: null });

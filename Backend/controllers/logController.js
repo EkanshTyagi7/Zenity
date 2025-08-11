@@ -1,7 +1,6 @@
 const DailyLog = require("../models/DailyLog");
 const User = require("../models/User");
 
-// Helper function to add XP and handle level up
 async function addXPAndHandleLevelUp(userId, xpToAdd) {
   try {
     const user = await User.findById(userId);
@@ -11,14 +10,12 @@ async function addXPAndHandleLevelUp(userId, xpToAdd) {
     let level = user.level;
     let leveledUp = false;
 
-    // Check for level up (max level 10)
     while (level < 10 && xp >= level * 100) {
       xp -= level * 100;
       level += 1;
       leveledUp = true;
     }
 
-    // Cap at level 10, XP doesn't increase further
     if (level >= 10) {
       level = 10;
       xp = 0;
@@ -47,13 +44,10 @@ exports.saveLog = async (req, res) => {
     const newLog = new DailyLog(req.body);
     await newLog.save();
 
-    // Update user streaks
     await updateUserStreaks(userId, date);
     
-    // Award XP for new log (5 XP per log)
     const levelUpResult = await addXPAndHandleLevelUp(userId, 5);
 
-    // Award currency for new log (50 coins, 30 stars)
     const user = await User.findById(userId);
     if (user) {
       user.coins += 50;
@@ -77,7 +71,6 @@ exports.saveLog = async (req, res) => {
   }
 };
 
-// Helper function to update user streaks
 async function updateUserStreaks(userId, currentDate) {
   try {
     const user = await User.findById(userId);
@@ -88,21 +81,15 @@ async function updateUserStreaks(userId, currentDate) {
     yesterday.setDate(yesterday.getDate() - 1);
     const yesterdayStr = yesterday.toISOString().split('T')[0];
 
-    // Check if user has logged today
     const todayLog = await DailyLog.findOne({ userId, date: currentDate });
     
     if (todayLog) {
-      // User has logged today, check if it's consecutive
       if (user.lastLogDate === yesterdayStr) {
-        // Consecutive day - increment current streak
         user.currentStreak += 1;
       } else if (user.lastLogDate !== currentDate) {
-        // Not consecutive - reset current streak to 1
         user.currentStreak = 1;
       }
-      // If lastLogDate is already today, don't change currentStreak
 
-      // Update highest streak if current streak is higher
       if (user.currentStreak > user.highestStreak) {
         user.highestStreak = user.currentStreak;
       }
@@ -125,7 +112,6 @@ exports.getLogByDate = async (req, res) => {
   }
 };
 
-// New endpoint to get user streaks
 exports.getUserStreaks = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -135,7 +121,6 @@ exports.getUserStreaks = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Check if user has logged today
     const today = new Date();
     const todayStr = today.toISOString().split('T')[0];
     const yesterday = new Date(today);
@@ -147,11 +132,7 @@ exports.getUserStreaks = async (req, res) => {
 
     if (!todayLog) {
       if (user.lastLogDate === yesterdayStr) {
-        // Last log was yesterday, streak is still valid
-        // Do nothing, keep currentStreak
       } else if (user.lastLogDate !== todayStr) {
-        // Last log was before yesterday, streak is broken
-        // Update highestStreak if needed
         if (user.currentStreak > user.highestStreak) {
           user.highestStreak = user.currentStreak;
         }
