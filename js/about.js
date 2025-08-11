@@ -1,4 +1,3 @@
-// Loading bar animation
 window.addEventListener("load", function () {
   const loadingBar = document.getElementById("loadingBar");
   loadingBar.style.width = "100%";
@@ -7,7 +6,6 @@ window.addEventListener("load", function () {
   }, 1000);
 });
 
-// Smooth scrolling for scroll indicator
 document
   .querySelector(".scroll-indicator")
   .addEventListener("click", function () {
@@ -16,7 +14,6 @@ document
     });
   });
 
-// Intersection Observer for animations
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -29,7 +26,6 @@ const observer = new IntersectionObserver(
   { threshold: 0.1 }
 );
 
-// Observe all content cards and feature cards
 document
   .querySelectorAll(".content-card, .feature-card, .team-member")
   .forEach((card) => {
@@ -39,7 +35,6 @@ document
     observer.observe(card);
   });
 
-// Add some interactive sparkles
 function createSparkle(x, y) {
   const sparkle = document.createElement("div");
   sparkle.innerHTML = "✨";
@@ -57,7 +52,6 @@ function createSparkle(x, y) {
   }, 2000);
 }
 
-// Add sparkle animation CSS
 const style = document.createElement("style");
 style.textContent = `
             @keyframes sparkleFloat {
@@ -73,7 +67,6 @@ style.textContent = `
         `;
 document.head.appendChild(style);
 
-// Add sparkles on hover for interactive elements
 document
   .querySelectorAll(".feature-card, .team-member, .cta-button")
   .forEach((element) => {

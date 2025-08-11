@@ -1,4 +1,3 @@
-// Add interactive functionality and backend integration for login
 document
   .getElementById("signinForm")
   .addEventListener("submit", async function (e) {
@@ -24,7 +23,7 @@ document
       if (response.ok) {
         // Store JWT in localStorage
         if (data.token) {
-          localStorage.setItem('token', data.token);
+          localStorage.setItem("token", data.token);
         }
         setTimeout(() => {
           window.location.href = "dashboard.html";
@@ -59,14 +58,6 @@ document.getElementById("googleSignin").addEventListener("click", function () {
   }, 1500);
 });
 
-// document
-//   .getElementById("createAccount")
-//   .addEventListener("click", function (e) {
-//     e.preventDefault();
-//     alert("Redirecting to account creation... 🌟");
-//   });
-
-// Add subtle parallax effect to floating elements
 document.addEventListener("mousemove", function (e) {
   const elements = document.querySelectorAll(".floating-element");
   const mouseX = e.clientX / window.innerWidth;
@@ -81,7 +72,6 @@ document.addEventListener("mousemove", function (e) {
   });
 });
 
-// Add form validation feedback
 const inputs = document.querySelectorAll(".form-input");
 inputs.forEach((input) => {
   input.addEventListener("blur", function () {
@@ -98,7 +88,6 @@ inputs.forEach((input) => {
   });
 });
 
-// Particle generation
 function createParticles() {
   const container = document.querySelector(".particle-container");
   const particleCount = 30;
@@ -107,7 +96,6 @@ function createParticles() {
     const particle = document.createElement("div");
     particle.classList.add("particle");
 
-    // Random properties
     const size = Math.random() * 10 + 5;
     const posX = Math.random() * 100;
     const posY = Math.random() * 100;

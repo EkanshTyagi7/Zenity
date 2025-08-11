@@ -1,4 +1,3 @@
-// Form submission with loading state and backend integration
 document
   .getElementById("signupForm")
   .addEventListener("submit", async function (e) {
@@ -47,7 +46,6 @@ document
     submitBtn.classList.remove("loading");
   });
 
-// Input focus animations
 document.querySelectorAll(".form-input").forEach((input) => {
   input.addEventListener("focus", function () {
     this.parentElement.style.transform = "translateY(-2px)";
@@ -58,7 +56,6 @@ document.querySelectorAll(".form-input").forEach((input) => {
   });
 });
 
-// Progress dots animation
 let currentDot = 0;
 setInterval(() => {
   document.querySelectorAll(".dot").forEach((dot, index) => {
@@ -68,7 +65,6 @@ setInterval(() => {
   currentDot = (currentDot + 1) % 3;
 }, 3000);
 
-// Add subtle parallax effect to floating shapes
 document.addEventListener("mousemove", (e) => {
   const shapes = document.querySelectorAll(".shape");
   const x = e.clientX / window.innerWidth;

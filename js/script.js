@@ -1,82 +1,86 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const token = localStorage.getItem('token');
-  const ctaButtons = document.getElementById('cta-buttons');
-  const accountBtnContainer = document.getElementById('index-account-btn-container');
-  const accountBtn = document.getElementById('index-account-button');
-  const accountDropdown = document.getElementById('index-account-dropdown');
-  const dropdownItems = accountDropdown ? accountDropdown.querySelectorAll('.dropdown-item') : [];
+document.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("token");
+  const ctaButtons = document.getElementById("cta-buttons");
+  const accountBtnContainer = document.getElementById(
+    "index-account-btn-container"
+  );
+  const accountBtn = document.getElementById("index-account-button");
+  const accountDropdown = document.getElementById("index-account-dropdown");
+  const dropdownItems = accountDropdown
+    ? accountDropdown.querySelectorAll(".dropdown-item")
+    : [];
 
   if (token) {
-    if (ctaButtons) ctaButtons.style.display = 'none';
-    if (accountBtnContainer) accountBtnContainer.style.display = 'flex';
+    if (ctaButtons) ctaButtons.style.display = "none";
+    if (accountBtnContainer) accountBtnContainer.style.display = "flex";
   }
 
-  // Dropdown toggle
   if (accountBtn && accountDropdown) {
-    accountBtn.addEventListener('click', (e) => {
+    accountBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      accountDropdown.classList.toggle('show');
+      accountDropdown.classList.toggle("show");
     });
 
-    document.addEventListener('click', (e) => {
-      if (!accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) {
-        accountDropdown.classList.remove('show');
+    document.addEventListener("click", (e) => {
+      if (
+        !accountBtn.contains(e.target) &&
+        !accountDropdown.contains(e.target)
+      ) {
+        accountDropdown.classList.remove("show");
       }
     });
 
-    dropdownItems.forEach(item => {
-      item.addEventListener('click', (e) => {
+    dropdownItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
         e.stopPropagation();
         switch (item.id) {
-          case 'index-my-profile':
-            alert('My Profile feature coming soon!');
+          case "index-my-profile":
+            alert("My Profile feature coming soon!");
             break;
-          case 'index-account-settings':
-            alert('Account Settings feature coming soon!');
+          case "index-account-settings":
+            alert("Account Settings feature coming soon!");
             break;
-          case 'index-logout':
-            localStorage.removeItem('token');
-            window.location.href = 'index.html';
+          case "index-logout":
+            localStorage.removeItem("token");
+            window.location.href = "index.html";
             break;
         }
-        accountDropdown.classList.remove('show');
+        accountDropdown.classList.remove("show");
       });
     });
   }
 });
 
-
-// Hero Get Started button sign-in/redirect logic
-document.addEventListener('DOMContentLoaded', () => {
-  const getStartedBtn = document.querySelector('.hero .btn-solid');
+document.addEventListener("DOMContentLoaded", () => {
+  const getStartedBtn = document.querySelector(".hero .btn-solid");
   if (getStartedBtn) {
-    getStartedBtn.addEventListener('click', function (e) {
+    getStartedBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        window.location.href = 'signIn.html?redirect=dashboard.html';
+        window.location.href = "signIn.html?redirect=dashboard.html";
       } else {
-        window.location.href = 'dashboard.html';
+        window.location.href = "dashboard.html";
       }
     });
   }
 });
-// Footer community button sign-in/redirect logic
-document.addEventListener('DOMContentLoaded', () => {
-  const footerCommunityBtn = document.querySelector('.footer .community-btn');
+
+document.addEventListener("DOMContentLoaded", () => {
+  const footerCommunityBtn = document.querySelector(".footer .community-btn");
   if (footerCommunityBtn) {
-    footerCommunityBtn.addEventListener('click', function (e) {
+    footerCommunityBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        window.location.href = 'signIn.html?redirect=dashboard.html';
+        window.location.href = "signIn.html?redirect=dashboard.html";
       } else {
-        window.location.href = 'dashboard.html';
+        window.location.href = "dashboard.html";
       }
     });
   }
 });
-// Smooth scrolling for navigation links
+
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
     e.preventDefault();
@@ -90,7 +94,6 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-// Animate feature cards on scroll
 const observerOptions = {
   threshold: 0.1,
   rootMargin: "0px 0px -50px 0px",
@@ -105,7 +108,6 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, observerOptions);
 
-// Apply animation to feature cards
 document.querySelectorAll(".feature-card, .why-card").forEach((card) => {
   card.style.opacity = "0";
   card.style.transform = "translateY(30px)";
@@ -113,12 +115,10 @@ document.querySelectorAll(".feature-card, .why-card").forEach((card) => {
   observer.observe(card);
 });
 
-// Animate Join Us section elements on scroll
 const joinImage = document.querySelector(".join-image img");
 const joinText = document.querySelector(".join-text");
 
 if (joinImage && joinText) {
-  // Start hidden
   joinImage.style.opacity = "0";
   joinImage.style.transform = "translateY(30px)";
   joinImage.style.transition = "opacity 0.8s ease, transform 0.8s ease";
@@ -144,15 +144,14 @@ if (joinImage && joinText) {
   joinObserver.observe(joinImage);
 }
 
-// Fade in/out for Join Us section
-const fadeSection = document.querySelector('.fade-toggle');
+const fadeSection = document.querySelector(".fade-toggle");
 const joinobserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        fadeSection.classList.add('visible');
+        fadeSection.classList.add("visible");
       } else {
-        fadeSection.classList.remove('visible');
+        fadeSection.classList.remove("visible");
       }
     });
   },
@@ -162,20 +161,16 @@ if (fadeSection) {
   joinobserver.observe(fadeSection);
 }
 
-// Community button sign-in/redirect logic
-document.addEventListener('DOMContentLoaded', () => {
-  const communityBtn = document.querySelector('.glow-button');
+document.addEventListener("DOMContentLoaded", () => {
+  const communityBtn = document.querySelector(".glow-button");
   if (communityBtn) {
-    communityBtn.addEventListener('click', function (e) {
+    communityBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      // Check for sign-in (assume JWT in localStorage)
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        // Not signed in, redirect to signIn with redirect param
-        window.location.href = 'signIn.html?redirect=community.html';
+        window.location.href = "signIn.html?redirect=community.html";
       } else {
-        // Signed in, go to community
-        window.location.href = 'community.html';
+        window.location.href = "community.html";
       }
     });
   }

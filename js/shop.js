@@ -175,8 +175,7 @@ function createBackgroundParticles() {
   }
 }
 
-// Attach switchSection to window so inline onclick works
-window.switchSection = function(section) {
+window.switchSection = function (section) {
   currentSection = section;
   currentIndex = 0;
 
@@ -199,7 +198,7 @@ window.switchSection = function(section) {
 
   renderCards();
   updateNavigation();
-}
+};
 
 // Render cards
 function renderCards() {
@@ -210,25 +209,22 @@ function renderCards() {
 
   items.forEach((item, index) => {
     const card = document.createElement("div");
-    // Remove 'equipped' class to prevent green badge
+
     card.className = `card${item.equipped ? "" : ""}`;
 
     let buttonHtml = "";
     if (item.unlocked) {
       if (item.equipped) {
-        // Show Equipped on the equipped card
         buttonHtml = `<button class=\"unlock-btn\" disabled>Equipped</button>`;
       } else {
-        // Show Equip button for unlocked but not equipped
         buttonHtml = `<button class=\"unlock-btn\" onclick=\"handleEquip(${item.id})\">Equip</button>`;
       }
     } else {
-      // Show unlock button with coin or star image
-      let imgSrc = 'img/dollar.png';
-      let imgAlt = 'coin';
-      if (currentSection === 'pets') {
-        imgSrc = 'img/star.png';
-        imgAlt = 'star';
+      let imgSrc = "img/dollar.png";
+      let imgAlt = "coin";
+      if (currentSection === "pets") {
+        imgSrc = "img/star.png";
+        imgAlt = "star";
       }
       buttonHtml = `<button class=\"unlock-btn\" onclick=\"handleUnlock(${item.id})\"><img src='${imgSrc}' alt='${imgAlt}' style='width:22px;height:22px;vertical-align:middle;margin-right:8px;'>${item.cost}</button>`;
     }
@@ -245,55 +241,50 @@ function renderCards() {
   updateCardsPosition();
 }
 
-// Attach handleUnlock to window so inline onclick works
-window.handleUnlock = async function(itemId) {
+window.handleUnlock = async function (itemId) {
   const item = gameData[currentSection].find((i) => i.id === itemId);
   if (!item || item.unlocked) return;
 
-  // Check if user has enough currency using currency manager
   let canBuy = false;
-  if (currentSection === 'pets') {
-    canBuy = window.currencyManager.hasEnoughCurrency(item.cost, 'stars');
+  if (currentSection === "pets") {
+    canBuy = window.currencyManager.hasEnoughCurrency(item.cost, "stars");
   } else {
-    canBuy = window.currencyManager.hasEnoughCurrency(item.cost, 'coins');
+    canBuy = window.currencyManager.hasEnoughCurrency(item.cost, "coins");
   }
 
   if (canBuy) {
     try {
-      // Get user ID from token
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        alert('Please log in to make purchases');
+        alert("Please log in to make purchases");
         return;
       }
-      
-      const payload = JSON.parse(atob(token.split('.')[1]));
+
+      const payload = JSON.parse(atob(token.split(".")[1]));
       const userId = payload.userId;
 
-      // Call backend purchase API
-      const response = await fetch('http://localhost:8001/api/shop/purchase', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8001/api/shop/purchase", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           userId,
           itemType: currentSection,
           itemId: item.id,
           itemName: item.name,
-          itemPrice: item.cost
-        })
+          itemPrice: item.cost,
+        }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to process purchase');
+        throw new Error(errorData.message || "Failed to process purchase");
       }
 
       const data = await response.json();
-      
-      // Show XP notification if XP was awarded
+
       if (data.xpAwarded && data.xpAwarded > 0) {
         const message = `+${data.xpAwarded} XP earned for purchase!`;
         if (window.showXPNotification) {
@@ -301,8 +292,7 @@ window.handleUnlock = async function(itemId) {
         } else {
           console.log(message);
         }
-        
-        // If user leveled up, show special notification
+
         if (data.leveledUp) {
           const levelUpMessage = `🎉 Congratulations! You reached Level ${data.newLevel}!`;
           if (window.showXPNotification) {
@@ -313,7 +303,6 @@ window.handleUnlock = async function(itemId) {
         }
       }
 
-      // Update currency display with backend response
       if (data.remainingCoins !== undefined) {
         window.currencyManager.coins = data.remainingCoins;
       }
@@ -326,40 +315,35 @@ window.handleUnlock = async function(itemId) {
       renderCards();
       showUnlockAnimation(item.name);
     } catch (err) {
-      console.error('Purchase failed:', err);
-      alert(err.message || 'Failed to process purchase. Please try again.');
+      console.error("Purchase failed:", err);
+      alert(err.message || "Failed to process purchase. Please try again.");
     }
   } else {
-    if (currentSection === 'pets') {
+    if (currentSection === "pets") {
       showInsufficientStarsAnimation();
     } else {
       showInsufficientCoinsAnimation();
     }
   }
-}
+};
 
-// Attach handleEquip to window so inline onclick works
-window.handleEquip = function(itemId) {
+window.handleEquip = function (itemId) {
   const items = gameData[currentSection];
   const toEquip = items.find((i) => i.id === itemId);
   if (!toEquip || !toEquip.unlocked) return;
 
-  // Find the currently equipped item
   const currentlyEquipped = items.find((i) => i.equipped);
   if (currentlyEquipped) currentlyEquipped.equipped = false;
 
-  // Equip selected
   toEquip.equipped = true;
 
-  // If equipping a pet, save to localStorage for dashboard
-  if (currentSection === 'pets') {
-    localStorage.setItem('shopPets', JSON.stringify(gameData.pets));
+  if (currentSection === "pets") {
+    localStorage.setItem("shopPets", JSON.stringify(gameData.pets));
   }
 
   renderCards();
-}
+};
 
-// Show unlock animation
 function showUnlockAnimation(itemName) {
   const notification = document.createElement("div");
   notification.style.cssText = `
@@ -383,7 +367,6 @@ function showUnlockAnimation(itemName) {
   setTimeout(() => notification.remove(), 2000);
 }
 
-// Show insufficient coins animation
 function showInsufficientCoinsAnimation() {
   const notification = document.createElement("div");
   notification.style.cssText = `
@@ -407,7 +390,6 @@ function showInsufficientCoinsAnimation() {
   setTimeout(() => notification.remove(), 1500);
 }
 
-// Show insufficient stars animation
 function showInsufficientStarsAnimation() {
   const notification = document.createElement("div");
   notification.style.cssText = `
@@ -431,7 +413,6 @@ function showInsufficientStarsAnimation() {
   setTimeout(() => notification.remove(), 1500);
 }
 
-// Slide cards
 function slideCards(direction) {
   const items = gameData[currentSection];
   const maxIndex = Math.max(0, items.length - 3);
@@ -441,12 +422,9 @@ function slideCards(direction) {
   updateNavigation();
 }
 
-// Update cards position
 function updateCardsPosition() {
   const wrapper = document.getElementById("cardsWrapper");
-  // Card width + gap (min-width in CSS + gap)
-  let cardWidth = 320 + 20; // 320px card + 20px gap
-  // Responsive: match CSS
+  let cardWidth = 320 + 20;
   if (window.innerWidth <= 1100 && window.innerWidth > 768) {
     cardWidth = 250 + 20;
   } else if (window.innerWidth <= 768) {
@@ -455,7 +433,6 @@ function updateCardsPosition() {
   wrapper.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
 }
 
-// Update navigation arrows
 function updateNavigation() {
   const items = gameData[currentSection];
   const prevBtn = document.querySelector(".nav-arrow.prev");
@@ -465,7 +442,6 @@ function updateNavigation() {
   nextBtn.disabled = currentIndex >= items.length - 3;
 }
 
-// Touch/swipe support
 let startX = 0;
 let isDragging = false;
 
@@ -487,16 +463,15 @@ document.addEventListener("touchend", (e) => {
 
   if (Math.abs(diff) > 50) {
     if (diff > 0) {
-      slideCards(1); // Swipe left - next
+      slideCards(1);
     } else {
-      slideCards(-1); // Swipe right - prev
+      slideCards(-1);
     }
   }
 
   isDragging = false;
 });
 
-// Add CSS animations
 const style = document.createElement("style");
 style.textContent = `
             @keyframes unlockPop {
@@ -513,5 +488,4 @@ style.textContent = `
         `;
 document.head.appendChild(style);
 
-// Initialize the app
 init();
